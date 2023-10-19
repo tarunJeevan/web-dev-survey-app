@@ -1,6 +1,7 @@
 import React from 'react'
 import "../Login/Login.css"
 
+
 export const Login = () => {
 
   return (
@@ -26,8 +27,13 @@ export const Login = () => {
   </div>
   <div className='submit-container'>
     <div className='submit'>Login</div>
-    <div className='forgot-container'>
-    <a href=''><p>Forgot Password?</p></a>
+    <div className = "forgot_n_singup" >
+      <div className='forgot-container'>
+        <a href=''><p>Forgot Password?</p></a>
+      </div>
+      <div className='singup-container'>
+        <a href='/signup'><p>Signup?</p></a>
+      </div>
     </div>
   </div>
   </div>

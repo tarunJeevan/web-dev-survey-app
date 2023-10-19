@@ -10,11 +10,6 @@
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
-.container:hover{
-    transform: scale(1.1);
-    transition: transform .3s;
-}
-
 .header
 {
     display: flex;
@@ -26,7 +21,7 @@
 }
 
 .text{
-    font-size: 48px;
+    font-size: 35px;
     color: black;
     font-weight: 500;
 }
@@ -61,7 +56,7 @@
 }
 
 .input img{
-    margin: 0px 30px;
+    margin: 0px 10px;
 }
 
 .input input{
@@ -72,6 +67,7 @@
     outline: none;
     color: #797979;
     font-size: 19px;
+    overflow: hidden;
 }
 
 .submit-container
@@ -96,7 +92,16 @@
     cursor: pointer;
 }
 
+.forgot_n_singup{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.singup-container{
+    font-size: smaller;
+}
+
 .forgot-container{
     font-size: smaller;
-
 }

@@ -20,6 +20,11 @@
     margin-top: 15px;
 }
 
+img:hover
+{
+    cursor: pointer;
+}
+
 .two img{
     width: 25px;
     height: 25px;
