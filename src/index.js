@@ -7,6 +7,7 @@ import { Header } from './Components/Header/Header';
 import reportWebVitals from './reportWebVitals';
 import { Login } from './Components/Login/Login';
 import { Signup } from './Components/Signup/Signup';
+import { Profile } from './Components/Profile/Profile';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,6 +18,7 @@ root.render(
         <Route index element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
