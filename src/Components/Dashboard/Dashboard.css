@@ -1,0 +1,39 @@
+* {
+    box-sizing: border-box;
+}
+
+.dashboard-header {
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    align-items: center;
+    background-color: #3c009d;
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 0;
+}
+
+.add-btn {
+    height: max-content;
+}
+
+.add-btn:hover::after {
+    position: absolute;
+    content: attr(data-descr);
+    background-color: #434343;
+    left: 0;
+    top: 25px;
+    min-width: max-content;
+    border: 1px #aaaaaa solid;
+    border-radius: 10px;
+    padding: 5px;
+    z-index: 1;
+}
+
+.survey-summary > summary {
+    list-style: none;
+}
+
+.summary-arrow {
+    padding-left: 1rem;
+}
