@@ -5,24 +5,38 @@
 .dashboard-header {
     display: flex;
     flex-direction: row;
-    gap: .5rem;
+    gap: 1rem;
     align-items: center;
-    background-color: #3c009d;
+    background-color: #aaaaaa;
     position: -webkit-sticky; /* For Safari */
     position: sticky;
     top: 0;
+    padding: 0 1rem;
+    border-bottom: 2px solid black;
+}
+
+.dashboard-header h1 {
+    text-shadow: 2px 2px 4px #c1c1c1;
 }
 
 .add-btn {
+    font-size: larger;
+    padding: .5rem;
     height: max-content;
+    background-color: #3c009d;
+    color: white;
+    border-radius: .25rem;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    cursor: pointer;
 }
 
 .add-btn:hover::after {
     position: absolute;
     content: attr(data-descr);
     background-color: #434343;
-    left: 0;
-    top: 25px;
+    color: white;
+    left: 13rem;
+    top: 4.25rem;
     min-width: max-content;
     border: 1px #aaaaaa solid;
     border-radius: 10px;
@@ -30,10 +44,31 @@
     z-index: 1;
 }
 
-.survey-summary > summary {
+.survey-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.survey-details > summary {
     list-style: none;
+    cursor: pointer;
+    font-weight: bold;
+    padding: .25rem;
+    background-color: #e4e4e4;
+    border-radius: .25rem;
+    width: 25%;
+    box-shadow: 1px 1px 3px gray;
+}
+
+.survey-details[open] summary {
+    background-color: #3c009d;
+    color: rgb(215, 215, 215);
+    text-shadow: 1px 1px 2px black;
+    border-radius: .25rem .25rem 0 0;
 }
 
 .summary-arrow {
-    padding-left: 1rem;
+    padding-left: .5rem;
 }
