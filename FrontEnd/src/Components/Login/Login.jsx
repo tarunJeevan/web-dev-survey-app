@@ -59,8 +59,8 @@ export const Login = () => {
       localStorage.setItem("token",accessToken);
       localStorage.setItem("username",username);
      
-      //
-      navigate("/profile");
+      // Changed this from "profile" to "dashboard". Change later as needed
+      navigate("/dashboard");
     }).catch((e) => {
       console.log(e);
     })

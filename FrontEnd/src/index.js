@@ -8,17 +8,21 @@ import reportWebVitals from './reportWebVitals';
 import { Login } from './Components/Login/Login';
 import { Signup } from './Components/Signup/Signup';
 import { Profile } from './Components/Profile/Profile';
+import { Dashboard } from './Components/Dashboard/Dashboard'
+import {SurveyBuilder} from './Components/SurveyBuilder/SurveyBuilder'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-     <Header />
+    <Header />
     <BrowserRouter>
       <Routes>
         <Route index element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/creator" element={<SurveyBuilder />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
