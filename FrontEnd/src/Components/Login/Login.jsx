@@ -48,10 +48,8 @@ export const Login = () => {
 
   const microsoftAuth = () => {
     signInWithPopup(auth, provider).then((result) => {
-      const credential = OAuthProvider.credentialFromResult(result);
-      
       //we only need the accessToken for api requests
-      const accessToken = credential.accessToken;
+      const accessToken = result.user.accessToken;
       
       //save the name of the user which may prove useful later in the application
       const username = result.user.displayName;
