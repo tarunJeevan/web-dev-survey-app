@@ -4,7 +4,9 @@
 /FrontEnd/node_modules
 /.pnp
 .pnp.js
+.vs
 
+/BackEnd/SurveyAPI/bin
 # testing
 /coverage
 
