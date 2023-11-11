@@ -1,43 +1,63 @@
-import { useState } from "react"
-import "./SurveyBuilder.css"
+import { SurveyCreatorComponent, SurveyCreator } from 'survey-creator-react'
+import 'survey-core/defaultV2.min.css'
+import 'survey-creator-core/survey-creator-core.min.css'
+import axios from 'axios'
+
+const creatorOptions = {
+    showLogicTab: true,
+    isAutoSave: true,
+    showJSONEditorTab: false
+}
+
+// Default survey data
+const defaultJSON = {
+    pages: [{
+        name: "Name",
+        elements: [{
+            name: "FirstName",
+            title: "Enter your first name:",
+            type: "text"
+        }, {
+            name: "LastName",
+            title: "Enter your last name:",
+            type: "text"
+        }]
+    }]
+}
+
+// Server endpoint to save survey data in the database
+const SERVER_URL = ''
 
 export function SurveyBuilder() {
-    const [selectedQuestion, setSelectedQuestion] = useState({})
+    const creator = new SurveyCreator(creatorOptions)
+    creator.text = window.localStorage.getItem('survey-json') || JSON.stringify(defaultJSON)
 
-    let questionList = [
-        {
-            id: crypto.randomUUID(),
-            type: "Default",
-            question: "Default Question"
-        }
-    ]
+    creator.saveSurveyFunc = (saveNo, callback) => {
+        // Local storage version
+        window.localStorage.setItem('survey-json', creator.text)
+        callback(saveNo, true)
+
+        // Server version
+        // saveSurveyJson(SERVER_URL, creator.JSON, saveNo, callback)
+    }
 
     return (
-        <div id="container">
-            <aside id="question-types">
-                <h2>Question Types</h2>
-            </aside>
-
-            <main id="question-container">
-                {questionList.map(q => {
-                    return (
-                        <QuestionCard question={q.question} />
-                    )
-                })}
-            </main>
-
-            <aside id="question-details">
-                <h2>Details</h2>
-            </aside>
-        </div>
+        <SurveyCreatorComponent creator={creator} />
     )
 }
 
-function QuestionCard({ type, question }) {
+async function saveSurveyJson(url, json, saveNo, callback) {
+    // Use axios?
+    try {
+        const response = await axios.post(url, json,
+            {
+                headers: { 'Content-Type': 'application/json' }
+            }
+        )
 
-    return (
-        <div className="question-card">
-            <h3>{question}</h3>
-        </div>
-    )
+        callback(saveNo, true)
+    } catch (err) {
+        console.error(err)
+        callback(saveNo, false)
+    }
 }
