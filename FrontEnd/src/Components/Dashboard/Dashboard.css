@@ -7,7 +7,7 @@
     flex-direction: row;
     gap: 1rem;
     align-items: center;
-    background-color: #aaaaaa;
+    background-color: #fff;
     position: -webkit-sticky; /* For Safari */
     position: sticky;
     top: 0;
@@ -16,7 +16,7 @@
 }
 
 .dashboard-header h1 {
-    text-shadow: 2px 2px 4px #c1c1c1;
+    text-shadow: 2px 2px 4px #fff;
 }
 
 .add-btn {
@@ -33,8 +33,8 @@
 .add-btn:hover::after {
     position: absolute;
     content: attr(data-descr);
-    background-color: #434343;
-    color: white;
+    background-color: #f0ecec;
+    color: black;
     left: 13rem;
     top: 4.25rem;
     min-width: max-content;
