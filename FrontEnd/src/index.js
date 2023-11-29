@@ -9,7 +9,8 @@ import { Login } from './Components/Login/Login';
 import { Signup } from './Components/Signup/Signup';
 import { Profile } from './Components/Profile/Profile';
 import { Dashboard } from './Components/Dashboard/Dashboard'
-import {SurveyBuilder} from './Components/SurveyBuilder/SurveyBuilder'
+import { SurveyBuilder } from './Components/SurveyBuilder/SurveyBuilder'
+import { SurveyTaker } from './Components/Survey/SurveyTaker'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -23,6 +24,7 @@ root.render(
         <Route path="/profile" element={<Profile />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/creator" element={<SurveyBuilder />} />
+        <Route path="/survey" element={<SurveyTaker />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

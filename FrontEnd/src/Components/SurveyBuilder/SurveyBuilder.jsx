@@ -1,6 +1,6 @@
-import { SurveyCreatorComponent, SurveyCreator } from 'survey-creator-react'
-import 'survey-core/defaultV2.min.css'
-import 'survey-creator-core/survey-creator-core.min.css'
+// import { SurveyCreatorComponent, SurveyCreator } from 'survey-creator-react'
+// import 'survey-core/defaultV2.min.css'
+// import 'survey-creator-core/survey-creator-core.min.css'
 import axios from 'axios'
 
 const creatorOptions = {
@@ -29,20 +29,21 @@ const defaultJSON = {
 const SERVER_URL = ''
 
 export function SurveyBuilder() {
-    const creator = new SurveyCreator(creatorOptions)
-    creator.text = window.localStorage.getItem('survey-json') || JSON.stringify(defaultJSON)
+    // const creator = new SurveyCreator(creatorOptions)
+    // creator.text = window.localStorage.getItem('survey-json') || JSON.stringify(defaultJSON)
 
-    creator.saveSurveyFunc = (saveNo, callback) => {
-        // Local storage version
-        window.localStorage.setItem('survey-json', creator.text)
-        callback(saveNo, true)
+    // creator.saveSurveyFunc = (saveNo, callback) => {
+    //     // Local storage version
+    //     window.localStorage.setItem('survey-json', creator.text)
+    //     callback(saveNo, true)
 
         // Server version
         // saveSurveyJson(SERVER_URL, creator.JSON, saveNo, callback)
-    }
+    // }
 
     return (
-        <SurveyCreatorComponent creator={creator} />
+        // <SurveyCreatorComponent creator={creator} />
+        <></>
     )
 }
 
