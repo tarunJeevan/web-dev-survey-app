@@ -1,64 +1,74 @@
-// import { SurveyCreatorComponent, SurveyCreator } from 'survey-creator-react'
-// import 'survey-core/defaultV2.min.css'
-// import 'survey-creator-core/survey-creator-core.min.css'
-import axios from 'axios'
+import 'survey-core/defaultV2.min.css'
+import { Model } from 'survey-core'
+import { Survey } from 'survey-react-ui'
+import { useRef } from "react"
+import "./SurveyBuilder.css"
 
-const creatorOptions = {
-    showLogicTab: true,
-    isAutoSave: true,
-    showJSONEditorTab: false
-}
-
-// Default survey data
-const defaultJSON = {
-    pages: [{
-        name: "Name",
-        elements: [{
-            name: "FirstName",
-            title: "Enter your first name:",
-            type: "text"
-        }, {
-            name: "LastName",
-            title: "Enter your last name:",
-            type: "text"
-        }]
-    }]
-}
-
-// Server endpoint to save survey data in the database
-const SERVER_URL = ''
+const allQuestionTypes = [
+    'text',
+    'comment',
+    'radiogroup',
+    'rating',
+    'checkbox',
+    'dropdown',
+    'tagbox',
+    'boolean',
+    'ranking',
+    'imagepicker',
+    'multipletext',
+    'image',
+    'matrix'
+]
 
 export function SurveyBuilder() {
-    // const creator = new SurveyCreator(creatorOptions)
-    // creator.text = window.localStorage.getItem('survey-json') || JSON.stringify(defaultJSON)
-
-    // creator.saveSurveyFunc = (saveNo, callback) => {
-    //     // Local storage version
-    //     window.localStorage.setItem('survey-json', creator.text)
-    //     callback(saveNo, true)
-
-        // Server version
-        // saveSurveyJson(SERVER_URL, creator.JSON, saveNo, callback)
-    // }
+    const surveyModel = new Model()
 
     return (
-        // <SurveyCreatorComponent creator={creator} />
-        <></>
+        <div id="container">
+            <aside id="question-types">
+                <h2>Question Types</h2>
+                {allQuestionTypes.map((value, index) => {
+
+                    return <QuestionTypeButton title={value} typeValue={value} surveyModel={surveyModel} />
+                })}
+            </aside>
+
+            <main id="question-container">
+                <Survey model={surveyModel} />
+            </main>
+
+            <aside id="question-details">
+                <h2>Details</h2>
+            </aside>
+        </div>
     )
 }
 
-async function saveSurveyJson(url, json, saveNo, callback) {
-    // Use axios?
-    try {
-        const response = await axios.post(url, json,
-            {
-                headers: { 'Content-Type': 'application/json' }
-            }
-        )
+function QuestionTypeButton({ title, typeValue, surveyModel }) {
+    const dialogRef = useRef()
 
-        callback(saveNo, true)
-    } catch (err) {
-        console.error(err)
-        callback(saveNo, false)
+    const addNewQuestion = e => {
+        e.preventDefault()
+
+        // TODO: Get form data and create new question to add to surveyQuestions
+
+        dialogRef.current.close()
     }
+
+    const openModal = () => {
+        dialogRef.current.showModal()
+    }
+
+    return <>
+        <div className='question-type'>
+            {title}
+            <button className='add-btn' onClick={openModal}>Add</button>
+        </div>
+
+        <dialog className='add-question-dialog' ref={dialogRef}>
+            <form className='add-question-form' onSubmit={addNewQuestion}>
+                <button className='create-btn' type='submit'>Create</button>
+            </form>
+        </dialog>
+    </>
 }
