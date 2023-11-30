@@ -18,7 +18,6 @@ root.render(
       <Routes>
         <Route index element={<Login />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/profile" element={<Profile />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/creator" element={<SurveyBuilder />} />
       </Routes>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Logout } from '../Logout/Logout';
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../Header/Header.css"
 
 export const Header = () => {
@@ -15,6 +15,11 @@ export const Header = () => {
   const closeMenu = () => {
     setMenuOpen(false);
   };
+
+  const logout = () =>{
+    localStorage.clear();
+  }
+
 
   return (
     <header className="Header_container">
@@ -32,10 +37,10 @@ export const Header = () => {
             {isMenuOpen && (
               <div className="logout_container" onBlur={closeMenu} tabIndex="0">
                 <div className='logout'>
-                  <h3>Logout</h3>
+                <a href='/login' onClick={logout}><h3>Logout</h3></a>
                 </div>
                 <div className='profile'>
-                  <h3>Profile</h3>
+                 <a href='/dashboard'><h3>Profile</h3></a>
                 </div>
               </div>
             )}
