@@ -5,7 +5,6 @@
 h2 {
     text-shadow: 1px 1px 3px gray;
     text-align: center;
-    padding-bottom: .25rem;
     border-bottom: 1px solid black;
     box-shadow: 1px 1px 3px gray;
     margin-top: 0;
@@ -35,6 +34,7 @@ h2 {
     display: flex;
     flex-direction: column;
     gap: .25rem;
+    flex-wrap: nowrap;
     border-right: 1px solid black;
     box-shadow: 1px 1px 3px gray;
 }
@@ -48,11 +48,66 @@ h2 {
     box-shadow: 1px 1px 3px gray;
 }
 
-.question-card {
+.question-type {
+    align-self: center;
     width: 90%;
-    background-color: #fff;
-    border: 1px solid black;
-    border-color: black;
+    background-color: inherit;
     border-radius: .25rem;
     padding: 0 .5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+.question-type:hover {
+    box-shadow: 1px 1px 3px black;
+}
+
+.add-question-btn {
+    font-size: large;
+    padding: 0.25rem;
+    margin: .5rem 0;
+    height: max-content;
+    background-color: inherit;
+    color: black;
+    border-radius: 0.25rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.add-question-btn:hover {
+    background-color: #3c009d;
+    color: white;
+}
+
+.add-question-dialog {
+    width: max-content;
+    padding: 1rem 2rem;
+}
+
+.add-question-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.add-question-form input {
+    width: 25rem;
+}
+
+.add-question-form button {
+    width: fit-content;
+    cursor: pointer;
+}
+
+.dialog-btns {
+    display: flex;
+    flex-direction: row;
+    gap: .25rem;
+}
+
+.add-question-form label {
+    font-weight: bold;
 }

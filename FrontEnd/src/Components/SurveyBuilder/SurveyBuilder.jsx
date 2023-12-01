@@ -1,29 +1,39 @@
-import { useState } from "react"
+import 'survey-core/defaultV2.min.css'
+import { Model } from 'survey-core'
+import { Survey } from 'survey-react-ui'
+import { useRef } from "react"
 import "./SurveyBuilder.css"
 
-export function SurveyBuilder() {
-    const [selectedQuestion, setSelectedQuestion] = useState({})
+const allQuestionTypes = [
+    { name: 'Textbox', type: 'text' },
+    { name: 'Multiple Textboxes', type: 'multipletext' },
+    { name: 'Comment', type: 'comment' },
+    { name: 'Radio Button Group', type: 'radiogroup' },
+    { name: 'Rating Scale', type: 'rating' },
+    { name: 'Checkboxes', type: 'checkbox' },
+    { name: 'Dropdown', type: 'dropdown' },
+    { name: 'Multi-Select Dropdown', type: 'tagbox' },
+    { name: 'Yes/No', type: 'boolean' },
+    { name: 'Ranking', type: 'ranking' },
+    { name: 'Image Picker', type: 'imagepicker' },
+    { name: 'Single-Select Matrix', type: 'matrix' }
+]
 
-    let questionList = [
-        {
-            id: crypto.randomUUID(),
-            type: "Default",
-            question: "Default Question"
-        }
-    ]
+export function SurveyBuilder() {
+    const surveyModel = new Model()
 
     return (
         <div id="container">
             <aside id="question-types">
                 <h2>Question Types</h2>
+                {allQuestionTypes.map((value, index) => {
+
+                    return <QuestionTypeButton key={index} title={value.name} typeValue={value.type} surveyModel={surveyModel} />
+                })}
             </aside>
 
             <main id="question-container">
-                {questionList.map(q => {
-                    return (
-                        <QuestionCard question={q.question} />
-                    )
-                })}
+                <Survey model={surveyModel} />
             </main>
 
             <aside id="question-details">
@@ -33,11 +43,34 @@ export function SurveyBuilder() {
     )
 }
 
-function QuestionCard({ type, question }) {
+function QuestionTypeButton({ title, typeValue, surveyModel }) {
+    const dialogRef = useRef()
+    const inputRef = useRef()
 
-    return (
-        <div className="question-card">
-            <h3>{question}</h3>
+    const addNewQuestion = e => {
+        e.preventDefault()
+
+        // TODO: Get form data and create new question to add to surveyQuestions
+
+        inputRef.current.value = ''
+        dialogRef.current.close()
+    }
+
+    return <>
+        <div className='question-type'>
+            {title}
+            <button className='add-question-btn' onClick={e => dialogRef.current.showModal()}>Add</button>
         </div>
-    )
+
+        <dialog className='add-question-dialog' ref={dialogRef}>
+            <form className='add-question-form' onSubmit={addNewQuestion}>
+                <label htmlFor="title-input">Question Title</label>
+                <input type="text" ref={inputRef} id="title-input" placeholder='Enter question...' />
+                <div className='dialog-btns'>
+                    <button type='submit'>Create</button>
+                    <button onClick={e => dialogRef.current.close()}>Cancel</button>
+                </div>
+            </form>
+        </dialog>
+    </>
 }
