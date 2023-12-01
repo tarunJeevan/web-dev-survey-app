@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 .vs
+.vscode
 
 /BackEnd/SurveyAPI/bin
 /BackEnd/SurveyAPI/obj
