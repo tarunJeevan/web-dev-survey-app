@@ -5,19 +5,18 @@ import { useRef } from "react"
 import "./SurveyBuilder.css"
 
 const allQuestionTypes = [
-    'text',
-    'comment',
-    'radiogroup',
-    'rating',
-    'checkbox',
-    'dropdown',
-    'tagbox',
-    'boolean',
-    'ranking',
-    'imagepicker',
-    'multipletext',
-    'image',
-    'matrix'
+    { name: 'Textbox', type: 'text' },
+    { name: 'Multiple Textboxes', type: 'multipletext' },
+    { name: 'Comment', type: 'comment' },
+    { name: 'Radio Button Group', type: 'radiogroup' },
+    { name: 'Rating Scale', type: 'rating' },
+    { name: 'Checkboxes', type: 'checkbox' },
+    { name: 'Dropdown', type: 'dropdown' },
+    { name: 'Multi-Select Dropdown', type: 'tagbox' },
+    { name: 'Yes/No', type: 'boolean' },
+    { name: 'Ranking', type: 'ranking' },
+    { name: 'Image Picker', type: 'imagepicker' },
+    { name: 'Single-Select Matrix', type: 'matrix' }
 ]
 
 export function SurveyBuilder() {
@@ -29,7 +28,7 @@ export function SurveyBuilder() {
                 <h2>Question Types</h2>
                 {allQuestionTypes.map((value, index) => {
 
-                    return <QuestionTypeButton title={value} typeValue={value} surveyModel={surveyModel} />
+                    return <QuestionTypeButton key={index} title={value.name} typeValue={value.type} surveyModel={surveyModel} />
                 })}
             </aside>
 
@@ -46,28 +45,31 @@ export function SurveyBuilder() {
 
 function QuestionTypeButton({ title, typeValue, surveyModel }) {
     const dialogRef = useRef()
+    const inputRef = useRef()
 
     const addNewQuestion = e => {
         e.preventDefault()
 
         // TODO: Get form data and create new question to add to surveyQuestions
 
+        inputRef.current.value = ''
         dialogRef.current.close()
-    }
-
-    const openModal = () => {
-        dialogRef.current.showModal()
     }
 
     return <>
         <div className='question-type'>
             {title}
-            <button className='add-btn' onClick={openModal}>Add</button>
+            <button className='add-question-btn' onClick={e => dialogRef.current.showModal()}>Add</button>
         </div>
 
         <dialog className='add-question-dialog' ref={dialogRef}>
             <form className='add-question-form' onSubmit={addNewQuestion}>
-                <button className='create-btn' type='submit'>Create</button>
+                <label htmlFor="title-input">Question Title</label>
+                <input type="text" ref={inputRef} id="title-input" placeholder='Enter question...' />
+                <div className='dialog-btns'>
+                    <button type='submit'>Create</button>
+                    <button onClick={e => dialogRef.current.close()}>Cancel</button>
+                </div>
             </form>
         </dialog>
     </>
