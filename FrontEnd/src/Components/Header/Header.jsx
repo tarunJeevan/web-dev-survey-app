@@ -1,29 +1,53 @@
-import React, {useState, useEffect} from 'react'
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react'
+import { Logout } from '../Logout/Logout';
+import { Link } from "react-router-dom";
 import "../Header/Header.css"
 
 export const Header = () => {
 
-  const win = window.sessionStorage;
-  const name = win.getItem('name')
+  const name = localStorage.getItem('username')
+  const [isMenuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!isMenuOpen);
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
+
+  const logout = () =>{
+    localStorage.clear();
+  }
+
 
   return (
     <header className="Header_container">
-        <div className='header_img'>
-            <div className='one'>
-            <img src="pfw_logo.png" alt="" />
-            </div>
-            <div className='profile_container'>
-            <div className='two'>
-            <a href='/profile'><img className='person_header' src="person.png" alt='' /></a>
-            </div>
-            <div className='name_profile'>
-            <p>{name}</p>
-            </div>
-            </div>
+      <div className='header_img'>
+        <div className='one'>
+          <a href='/dashboard'><img src="pfw_logo.png" alt="" /></a>
         </div>
-        <div className='border'>
+        <div className='profile_container'>
+          <div className='two'>
+            <div onClick={toggleMenu}><img className='person_header' src="person.png" alt='' /></div>
+          </div>
+              <div className='name_profile'>
+                <p onClick={toggleMenu}>{name}</p>
+              </div>  
+            {isMenuOpen && (
+              <div className="logout_container" onBlur={closeMenu} tabIndex="0">
+                <div className='logout'>
+                <a href='/login' onClick={logout}><h3>Logout</h3></a>
+                </div>
+                <div className='profile'>
+                 <a href='/dashboard'><h3>Profile</h3></a>
+                </div>
+              </div>
+            )}
         </div>
+      </div>
+      <div className='border'>
+      </div>
     </header>
   )
 }

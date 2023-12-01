@@ -6,7 +6,6 @@ import App from './App';
 import { Header } from './Components/Header/Header';
 import reportWebVitals from './reportWebVitals';
 import { Login } from './Components/Login/Login';
-import { Signup } from './Components/Signup/Signup';
 import { Profile } from './Components/Profile/Profile';
 import { Dashboard } from './Components/Dashboard/Dashboard'
 import { SurveyBuilder } from './Components/SurveyBuilder/SurveyBuilder'
@@ -20,8 +19,6 @@ root.render(
       <Routes>
         <Route index element={<Login />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/profile" element={<Profile />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/creator" element={<SurveyBuilder />} />
         <Route path="/survey" element={<SurveyTaker />} />
