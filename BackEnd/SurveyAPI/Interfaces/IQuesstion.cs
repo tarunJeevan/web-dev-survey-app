@@ -1,10 +1,12 @@
-﻿using SurveyAPI.SurveryModels;
+﻿using SurveyAPI.Objects;
+using SurveyAPI.SurveryModels;
 
 namespace SurveyAPI.Interfaces
 {
-    public interface IQuesstion
+    public interface IQuestion
     {
         IEnumerable<Questiontype> GetQuestiontypes();
-        IEnumerable<Question> GetQuestions(string a_key);
+        IEnumerable<QuestionObject> GetQuestions(string a_key);
+        Task<bool> CreateQuestion(QuestionObject a_question);
     }
 }

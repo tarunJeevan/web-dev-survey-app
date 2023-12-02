@@ -33,9 +33,7 @@ public partial class WebsurveyPfwContext : DbContext
 
             entity.ToTable("options");
 
-            entity.HasIndex(e => e.QuestionId, "FK_optionsQuestions");
-
-            entity.Property(e => e.Id)
+                        entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
             entity.Property(e => e.Description)
@@ -44,11 +42,6 @@ public partial class WebsurveyPfwContext : DbContext
             entity.Property(e => e.QuestionId)
                 .HasColumnType("int(11)")
                 .HasColumnName("questionId");
-
-            entity.HasOne(d => d.Question).WithMany(p => p.Options)
-                .HasForeignKey(d => d.QuestionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_optionsQuestions");
         });
         modelBuilder.Entity<Question>(entity =>
         {
@@ -56,14 +49,14 @@ public partial class WebsurveyPfwContext : DbContext
 
             entity.ToTable("question");
 
-            entity.HasIndex(e => e.Type, "FK_questionType").IsUnique();
-
-            entity.Property(e => e.Id)
+                        entity.Property(e => e.Id)
                 .ValueGeneratedNever()
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
             entity.Property(e => e.DateCreated).HasColumnName("date_created");
             entity.Property(e => e.DateModified).HasColumnName("date_modified");
+            entity.Property(e => e.CreatedBy)
+                .HasColumnName("createdBy");
             entity.Property(e => e.Text)
                 .HasColumnType("text")
                 .HasColumnName("text");

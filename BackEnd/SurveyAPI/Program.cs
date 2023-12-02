@@ -26,9 +26,10 @@ builder.Services.AddEntityFrameworkMySql().AddDbContext<WebsurveyPfwContext>(opt
 {
     options.UseMySql(configuration.GetSection("Connection").Value, new MariaDbServerVersion(new Version()));
 });
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddDbContext<WebsurveyPfwContext>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IQuesstion, QuestionService>();
+builder.Services.AddScoped<IQuestion, QuestionService>();
 
 // Initialize the Firebase Admin SDK
 var firebaseApp = FirebaseApp.Create(new AppOptions
