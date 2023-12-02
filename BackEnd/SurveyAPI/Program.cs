@@ -2,10 +2,12 @@ using AspNetCore.Firebase.Authentication.Extensions;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SurveyAPI.Interfaces;
 using SurveyAPI.Services;
+using SurveyAPI.SurveryModels;
 using SurveyAPI.Utils;
 using System.Text;
 
@@ -18,9 +20,15 @@ var configuration = new ConfigurationBuilder()
     .Build();
 
 var serviceConfig = configuration.GetSection("service_config").Get<ServiceConfig>();
-
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Services.AddEntityFrameworkMySql().AddDbContext<WebsurveyPfwContext>(options =>
+{
+    options.UseMySql(configuration.GetSection("Connection").Value, new MariaDbServerVersion(new Version()));
+});
+builder.Services.AddDbContext<WebsurveyPfwContext>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-
+builder.Services.AddScoped<IQuesstion, QuestionService>();
 
 // Initialize the Firebase Admin SDK
 var firebaseApp = FirebaseApp.Create(new AppOptions
@@ -79,7 +87,7 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+//if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
