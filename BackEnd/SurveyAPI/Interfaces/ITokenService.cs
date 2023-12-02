@@ -11,5 +11,7 @@ namespace SurveyAPI.Interfaces
         Task<bool> ValidateToken(string a_token);
 
         Task<string> GetUserRoleFromToken(string a_token);
+
+        Task<string> GetUserIDFromToken(string a_token);
     }
 }

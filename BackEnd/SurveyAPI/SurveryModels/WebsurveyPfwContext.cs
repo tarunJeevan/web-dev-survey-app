@@ -15,6 +15,7 @@ public partial class WebsurveyPfwContext : DbContext
     {
     }
 
+    public virtual DbSet<Option> Options { get; set; }
     public virtual DbSet<Question> Questions { get; set; }
 
     public virtual DbSet<Questiontype> Questiontypes { get; set; }
@@ -26,21 +27,36 @@ public partial class WebsurveyPfwContext : DbContext
         modelBuilder
             .UseCollation("utf8mb4_general_ci")
             .HasCharSet("utf8mb4");
+        modelBuilder.Entity<Option>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
+            entity.ToTable("options");
+
+                        entity.Property(e => e.Id)
+                .HasColumnType("int(11)")
+                .HasColumnName("id");
+            entity.Property(e => e.Description)
+                .HasColumnType("text")
+                .HasColumnName("description");
+            entity.Property(e => e.QuestionId)
+                .HasColumnType("int(11)")
+                .HasColumnName("questionId");
+        });
         modelBuilder.Entity<Question>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("question");
 
-            entity.HasIndex(e => e.Type, "FK_questionType").IsUnique();
-
-            entity.Property(e => e.Id)
+                        entity.Property(e => e.Id)
                 .ValueGeneratedNever()
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
             entity.Property(e => e.DateCreated).HasColumnName("date_created");
             entity.Property(e => e.DateModified).HasColumnName("date_modified");
+            entity.Property(e => e.CreatedBy)
+                .HasColumnName("createdBy");
             entity.Property(e => e.Text)
                 .HasColumnType("text")
                 .HasColumnName("text");

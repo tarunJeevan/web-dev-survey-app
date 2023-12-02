@@ -64,5 +64,19 @@ namespace SurveyAPI.Services
                 return "error";
             }
         }
+
+        public async Task<string> GetUserIDFromToken(string a_token)
+        {
+            try
+            {
+                string token = a_token.Substring(6).Trim();
+                FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(token);
+                return decodedToken.Uid;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }
