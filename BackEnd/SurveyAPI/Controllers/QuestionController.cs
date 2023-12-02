@@ -27,5 +27,16 @@ namespace SurveyAPI.Controllers
         {
             return m_questions.GetQuestiontypes();
         }
+        /// <summary>
+        /// Endpoint to return question
+        /// </summary>
+        /// <param name="a_start"></param>
+        /// <param name="a_end"></param>
+        [Authorize]
+        [HttpGet, Route("list/{a_key}")]
+        public IEnumerable<Question> GetQuestions(string a_key)
+        {
+            return m_questions.GetQuestions(a_key);
+        }
     }
 }

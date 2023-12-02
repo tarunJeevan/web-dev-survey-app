@@ -15,6 +15,7 @@ public partial class WebsurveyPfwContext : DbContext
     {
     }
 
+    public virtual DbSet<Option> Options { get; set; }
     public virtual DbSet<Question> Questions { get; set; }
 
     public virtual DbSet<Questiontype> Questiontypes { get; set; }
@@ -26,7 +27,29 @@ public partial class WebsurveyPfwContext : DbContext
         modelBuilder
             .UseCollation("utf8mb4_general_ci")
             .HasCharSet("utf8mb4");
+        modelBuilder.Entity<Option>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
+            entity.ToTable("options");
+
+            entity.HasIndex(e => e.QuestionId, "FK_optionsQuestions");
+
+            entity.Property(e => e.Id)
+                .HasColumnType("int(11)")
+                .HasColumnName("id");
+            entity.Property(e => e.Description)
+                .HasColumnType("text")
+                .HasColumnName("description");
+            entity.Property(e => e.QuestionId)
+                .HasColumnType("int(11)")
+                .HasColumnName("questionId");
+
+            entity.HasOne(d => d.Question).WithMany(p => p.Options)
+                .HasForeignKey(d => d.QuestionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_optionsQuestions");
+        });
         modelBuilder.Entity<Question>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");

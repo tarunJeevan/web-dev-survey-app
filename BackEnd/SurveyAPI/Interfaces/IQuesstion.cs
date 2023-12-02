@@ -5,6 +5,6 @@ namespace SurveyAPI.Interfaces
     public interface IQuesstion
     {
         IEnumerable<Questiontype> GetQuestiontypes();
-        IEnumerable<Question> GetQuestions();
+        IEnumerable<Question> GetQuestions(string a_key);
     }
 }

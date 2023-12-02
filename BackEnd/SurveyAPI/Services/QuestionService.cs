@@ -10,9 +10,9 @@ namespace SurveyAPI.Services
         {
             m_context = a_context;
         }
-        public IEnumerable<Question> GetQuestions()
+        public IEnumerable<Question> GetQuestions(string a_key)
         {
-            return m_context.Questions;
+            return m_context.Questions.Where(question => question.Text.ToLower().Contains(a_key));
         }
 
         public IEnumerable<Questiontype> GetQuestiontypes()

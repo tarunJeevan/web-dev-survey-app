@@ -15,5 +15,9 @@ public partial class Question
 
     public DateOnly DateModified { get; set; }
 
+    public int? CreatedBy { get; set; }
+
+    public virtual ICollection<Option> Options { get; set; } = new List<Option>();
+
     public virtual Questiontype TypeNavigation { get; set; } = null!;
 }
