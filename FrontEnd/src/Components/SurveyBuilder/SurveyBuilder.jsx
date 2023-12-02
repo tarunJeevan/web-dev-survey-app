@@ -6,7 +6,6 @@ import "./SurveyBuilder.css"
 
 const allQuestionTypes = [
     { name: 'Textbox', type: 'text' },
-    { name: 'Multiple Textboxes', type: 'multipletext' }, // TODO: Needs additional options
     { name: 'Comment', type: 'comment' },
     { name: 'Radio Button Group', type: 'radiogroup' }, // TODO: Needs additional options
     { name: 'Rating Scale', type: 'rating' }, // TODO: Needs additional options
@@ -15,8 +14,6 @@ const allQuestionTypes = [
     { name: 'Multi-Select Dropdown', type: 'tagbox' }, // TODO: Needs additional options
     { name: 'Yes/No', type: 'boolean' },
     { name: 'Ranking', type: 'ranking' }, // TODO: Needs additional options
-    { name: 'Image Picker', type: 'imagepicker' }, // TODO: Needs additional options
-    { name: 'Single-Select Matrix', type: 'matrix' } // TODO: Needs additional options
 ]
 
 export function SurveyBuilder() {
@@ -24,11 +21,7 @@ export function SurveyBuilder() {
     const [surveyJson, setSurveyJson] = useState({
         pages: [{
             name: "Page1",
-            elements: [{
-                type: "text",
-                name: "Default",
-                title: "Default Survey Question"
-            }]
+            elements: []
         }]
     })
     const dialogRef = useRef()
@@ -107,10 +100,10 @@ export function SurveyBuilder() {
 
 function QuestionTypeButton({ title, typeValue, openFunc }) {
 
-    return <>
+    return (
         <div className='question-type'>
             {title}
             <button className='add-question-btn' onClick={e => openFunc(typeValue)}>Select</button>
         </div>
-    </>
+    )
 }
