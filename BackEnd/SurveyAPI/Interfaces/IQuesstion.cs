@@ -1,5 +1,5 @@
 ﻿using SurveyAPI.Objects;
-using SurveyAPI.SurveryModels;
+using SurveyAPI.SurveyModels;
 
 namespace SurveyAPI.Interfaces
 {

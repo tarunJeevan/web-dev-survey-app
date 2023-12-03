@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using NuGet.Common;
 using SurveyAPI.Interfaces;
 using SurveyAPI.Objects;
-using SurveyAPI.SurveryModels;
+using SurveyAPI.SurveyModels;
 
 namespace SurveyAPI.Controllers
 {
