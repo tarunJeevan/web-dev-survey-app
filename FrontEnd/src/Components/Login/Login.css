@@ -39,6 +39,40 @@
     display: flex;
     gap: 0px;
     margin: 20px auto;
+    flex-direction: row;
+    position: relative;
+    right: 70%;
+    bottom: 80%;
+}
+
+.mastodon_div{
+    width: 500px;
+    height: 500px;
+    position: relative;
+    right: 27%;
+    bottom: 0%;
+}
+
+.mastodon_div img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.student_BG{
+    height: 960px;
+    width: 1200px;
+    display: flex;
+    justify-content: center;
+    border: 1px solid black;
+    position: relative;
+    right: 20%;
+    bottom: 18%;
+    align-items: center;
+    background-image: url("C:\Users\epava\Web Dev\Project\web-dev-survey-app\FrontEnd\public\students.jpg");
+    background-size: cover;
+    filter: blur(8px);
+   -webkit-filter: blur(8px);
+    border: 1px solid black;
 }
 
 .submit{
@@ -54,4 +88,8 @@
     color: #eaeaea;
     cursor: pointer;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    margin-top: 200px;
+    position: relative;
+    right: 53%;
+    top: 6%;
 }

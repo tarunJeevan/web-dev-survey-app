@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from "react-router-dom";
 import "../Login/Login.css"
 import { signInWithPopup, OAuthProvider } from 'firebase/auth';
 import { auth } from '../../Utils/firebase';
+import { UserContext } from '../../App';
 
 
 export const Login = () => {
@@ -10,6 +11,8 @@ export const Login = () => {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const {setusername} = useContext(UserContext);
+
 
   const navigate = useNavigate();
 
@@ -38,7 +41,7 @@ export const Login = () => {
       
       localStorage.setItem("token",accessToken);
       localStorage.setItem("username",username);
-     
+      setusername(username);
       // Changed this from "profile" to "dashboard". Change later as needed
       navigate("/dashboard");
     }).catch((e) => {
@@ -57,8 +60,10 @@ export const Login = () => {
         <div className='underline'></div>
       </div>
       <div className='submit-container'>
+        <div className='mastodon_div'><img className='mastodon' src="mastodon.jpg" alt='' /></div>
+        <div className='student_BG'></div>
         <div className='submit' onClick={microsoftAuth}>LOGIN</div>
-        </div>
+      </div>
     </div>
   )
 }

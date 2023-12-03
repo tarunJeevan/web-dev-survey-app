@@ -1,11 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Logout } from '../Logout/Logout';
 import { Link } from "react-router-dom";
 import "../Header/Header.css"
+import { UserContext } from '../../App';
 
 export const Header = () => {
 
-  const name = localStorage.getItem('username')
+  const {username} = useContext(UserContext);
+
+  // useEffect(()=>{
+  //   const storedUsername = localStorage.getItem('username');
+  //   if (storedUsername) {
+  //     setusername(storedUsername);
+  //   }
+  // },[localStorage.getItem('username')])
+
   const [isMenuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -32,7 +41,7 @@ export const Header = () => {
             <div onClick={toggleMenu}><img className='person_header' src="person.png" alt='' /></div>
           </div>
               <div className='name_profile'>
-                <p onClick={toggleMenu}>{name}</p>
+                <p onClick={toggleMenu}>{username}</p>
               </div>  
             {isMenuOpen && (
               <div className="logout_container" onBlur={closeMenu} tabIndex="0">
