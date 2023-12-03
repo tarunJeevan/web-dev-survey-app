@@ -1,12 +1,12 @@
 import 'survey-core/defaultV2.min.css'
 import { Model } from 'survey-core'
 import { Survey } from 'survey-react-ui'
-import { useRef } from "react"
+import { useState } from "react"
 import "./SurveyBuilder.css"
+import { QuestionForm } from './QuestionForm'
 
 const allQuestionTypes = [
     { name: 'Textbox', type: 'text' },
-    { name: 'Multiple Textboxes', type: 'multipletext' },
     { name: 'Comment', type: 'comment' },
     { name: 'Radio Button Group', type: 'radiogroup' },
     { name: 'Rating Scale', type: 'rating' },
@@ -15,62 +15,49 @@ const allQuestionTypes = [
     { name: 'Multi-Select Dropdown', type: 'tagbox' },
     { name: 'Yes/No', type: 'boolean' },
     { name: 'Ranking', type: 'ranking' },
-    { name: 'Image Picker', type: 'imagepicker' },
-    { name: 'Single-Select Matrix', type: 'matrix' }
 ]
 
 export function SurveyBuilder() {
-    const surveyModel = new Model()
+    const [showDetails, setShowDetails] = useState(false)
+    const [questionType, setQuestionType] = useState("")
+    const [surveyJson, setSurveyJson] = useState({
+        pages: [{
+            name: "Page1",
+            elements: []
+        }]
+    })
+
+    const survey = new Model(surveyJson)
+
+    const openDetailsForm = type => {
+        setQuestionType(type)
+        setShowDetails(true) // TODO: Put this in useEffect if it's not updating properly
+    }
 
     return (
         <div id="container">
             <aside id="question-types">
                 <h2>Question Types</h2>
                 {allQuestionTypes.map((value, index) => {
-
-                    return <QuestionTypeButton key={index} title={value.name} typeValue={value.type} surveyModel={surveyModel} />
+                    return (
+                        <div key={index} className='question-type'>
+                            {value.name}
+                            <button className='add-question-btn' onClick={e => openDetailsForm(value.type)}>Select</button>
+                        </div>
+                    )
                 })}
             </aside>
 
             <main id="question-container">
-                <Survey model={surveyModel} />
+                <Survey model={survey} />
             </main>
 
             <aside id="question-details">
                 <h2>Details</h2>
+                {showDetails &&
+                    <QuestionForm typeValue={questionType} setSurveyJson={setSurveyJson} setShowDetails={setShowDetails} />
+                }
             </aside>
         </div>
     )
-}
-
-function QuestionTypeButton({ title, typeValue, surveyModel }) {
-    const dialogRef = useRef()
-    const inputRef = useRef()
-
-    const addNewQuestion = e => {
-        e.preventDefault()
-
-        // TODO: Get form data and create new question to add to surveyQuestions
-
-        inputRef.current.value = ''
-        dialogRef.current.close()
-    }
-
-    return <>
-        <div className='question-type'>
-            {title}
-            <button className='add-question-btn' onClick={e => dialogRef.current.showModal()}>Add</button>
-        </div>
-
-        <dialog className='add-question-dialog' ref={dialogRef}>
-            <form className='add-question-form' onSubmit={addNewQuestion}>
-                <label htmlFor="title-input">Question Title</label>
-                <input type="text" ref={inputRef} id="title-input" placeholder='Enter question...' />
-                <div className='dialog-btns'>
-                    <button type='submit'>Create</button>
-                    <button onClick={e => dialogRef.current.close()}>Cancel</button>
-                </div>
-            </form>
-        </dialog>
-    </>
 }
