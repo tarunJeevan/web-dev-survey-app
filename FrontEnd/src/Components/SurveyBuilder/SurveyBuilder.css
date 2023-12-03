@@ -15,7 +15,7 @@ h2 {
     display: flex;
     flex-direction: row;
     gap: 5rem;
-    height: 100vh;
+    height: 90vh;
     width: 100vw;
     background-color: #fff;
 }
@@ -115,7 +115,18 @@ h2 {
 }
 
 .add-question-form input[type="range"] {
-    width: 50%;
+    width: 75%;
+}
+
+.add-question-form .text-range {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.add-question-form .text-range output {
+    font-weight: bold;
 }
 
 .add-question-form button {

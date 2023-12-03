@@ -1,44 +1,43 @@
 import 'survey-core/defaultV2.min.css'
 import { Model } from 'survey-core'
 import { Survey } from 'survey-react-ui'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "./SurveyBuilder.css"
 import { QuestionForm } from './QuestionForm'
 
-const allQuestionTypes = [
-    { name: 'Textbox', type: 'text' },
-    { name: 'Comment', type: 'comment' },
-    { name: 'Radio Button Group', type: 'radiogroup' },
-    { name: 'Rating Scale', type: 'rating' },
-    { name: 'Checkboxes', type: 'checkbox' },
-    { name: 'Dropdown', type: 'dropdown' },
-    { name: 'Multi-Select Dropdown', type: 'tagbox' },
-    { name: 'Yes/No', type: 'boolean' },
-    { name: 'Ranking', type: 'ranking' },
-]
-
 export function SurveyBuilder() {
+    const [typesList, setTypesList] = useState([])
     const [showDetails, setShowDetails] = useState(false)
     const [questionType, setQuestionType] = useState("")
-    const [surveyJson, setSurveyJson] = useState({
-        pages: [{
-            name: "Page1",
-            elements: []
-        }]
+    const [surveyModel, setSurveyModel] = useState(() => {
+        const survey = new Model()
+        survey.addNewPage('Page1')
+
+        return survey
     })
 
-    const survey = new Model(surveyJson)
-
+    useEffect(() => {
+        const bearer = `Bearer ${localStorage.getItem('token')}`
+        const getTypes = async () => {
+            const response = await fetch('https://websurvey.biskilog.com/api/question/types',
+                { headers: { 'Authorization': bearer } }
+            )
+            const responseJson = await response.json()
+            setTypesList(responseJson)
+        }
+        getTypes()
+    }, [])
+    
     const openDetailsForm = type => {
         setQuestionType(type)
-        setShowDetails(true) // TODO: Put this in useEffect if it's not updating properly
+        setShowDetails(true)
     }
-
+    
     return (
         <div id="container">
             <aside id="question-types">
                 <h2>Question Types</h2>
-                {allQuestionTypes.map((value, index) => {
+                {typesList.map((value, index) => {
                     return (
                         <div key={index} className='question-type'>
                             {value.name}
@@ -49,13 +48,13 @@ export function SurveyBuilder() {
             </aside>
 
             <main id="question-container">
-                <Survey model={survey} />
+                <Survey model={surveyModel} />
             </main>
 
             <aside id="question-details">
                 <h2>Details</h2>
                 {showDetails &&
-                    <QuestionForm typeValue={questionType} setSurveyJson={setSurveyJson} setShowDetails={setShowDetails} />
+                    <QuestionForm typeValue={questionType} setSurveyJson={setSurveyModel} setShowDetails={setShowDetails} />
                 }
             </aside>
         </div>
