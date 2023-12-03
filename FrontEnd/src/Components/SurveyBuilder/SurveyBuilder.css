@@ -97,30 +97,37 @@ h2 {
     color: white;
 }
 
-.add-question-dialog {
-    width: max-content;
-    padding: 1rem 2rem;
-}
-
 .add-question-form {
+    padding: 1rem 2rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    width: 100%;
 }
 
 .add-question-form input {
-    width: 25rem;
+    width: 100%;
+    padding: 0.25rem;
+}
+
+.add-question-form input[type="checkbox"] {
+    width: fit-content;
+}
+
+.add-question-form input[type="range"] {
+    width: 50%;
 }
 
 .add-question-form button {
-    width: fit-content;
+    font-size: large;
+    width: max-content;
+    height: max-content;
+    padding: 0.25rem 0.5rem;
+    background-color: #28A745;
+    color: white;
+    border-radius: 0.25rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
-}
-
-.dialog-btns {
-    display: flex;
-    flex-direction: row;
-    gap: .25rem;
 }
 
 .add-question-form label {
