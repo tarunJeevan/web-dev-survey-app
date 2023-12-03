@@ -9,11 +9,11 @@ export function SurveyBuilder() {
     const [typesList, setTypesList] = useState([])
     const [showDetails, setShowDetails] = useState(false)
     const [questionType, setQuestionType] = useState("")
-    const [surveyJson, setSurveyJson] = useState({
-        pages: [{
-            name: "Page1",
-            elements: []
-        }]
+    const [surveyModel, setSurveyModel] = useState(() => {
+        const survey = new Model()
+        survey.addNewPage('Page1')
+
+        return survey
     })
 
     useEffect(() => {
@@ -33,8 +33,6 @@ export function SurveyBuilder() {
         setShowDetails(true)
     }
     
-    const survey = new Model(surveyJson)
-
     return (
         <div id="container">
             <aside id="question-types">
@@ -50,13 +48,13 @@ export function SurveyBuilder() {
             </aside>
 
             <main id="question-container">
-                <Survey model={survey} />
+                <Survey model={surveyModel} />
             </main>
 
             <aside id="question-details">
                 <h2>Details</h2>
                 {showDetails &&
-                    <QuestionForm typeValue={questionType} setSurveyJson={setSurveyJson} setShowDetails={setShowDetails} />
+                    <QuestionForm typeValue={questionType} setSurveyJson={setSurveyModel} setShowDetails={setShowDetails} />
                 }
             </aside>
         </div>

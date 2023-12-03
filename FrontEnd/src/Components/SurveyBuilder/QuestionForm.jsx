@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 
 export function QuestionForm({ typeValue, setSurveyJson, setShowDetails }) {
     const requiredRef = useRef()
@@ -8,7 +8,9 @@ export function QuestionForm({ typeValue, setSurveyJson, setShowDetails }) {
     const rateMaxRef = useRef()
     const choicesRef = useRef()
 
-    const addNewQuestion = e => {
+    const [rangeValue, setRangeValue] = useState(50)
+
+    const addQuestion = e => {
         e.preventDefault()
 
         const isRequired = requiredRef.current.value === 'yes' ? true : false
@@ -20,33 +22,39 @@ export function QuestionForm({ typeValue, setSurveyJson, setShowDetails }) {
             ? choicesRef.current.value.split(',')
             : []
 
-        const element = createQuestionJson(
-            typeValue,
-            isRequired,
-            questionTitle,
-            questionDescription,
-            textMaxLength,
-            maxRating,
-            choicesArray
-        )
+        setSurveyJson(prevModel => {
+            const name = questionTitle.replace(/\s/g, '')
+            const page = prevModel.getPageByName('Page1')
 
-        setSurveyJson((prevJson) => {
-            return {
-                pages: [{
-                    name: "Page1",
-                    elements: [
-                        ...prevJson.pages[0].elements,
-                        element
-                    ]
-                }]
+            const question = page.addNewQuestion(typeValue, name)
+            question.title = questionTitle
+            question.description = questionDescription
+            question.isRequired = isRequired
+
+            switch (typeValue) {
+                case 'text':
+                    question.maxLength = textMaxLength
+                    break
+                case 'rating':
+                    question.rateMax = maxRating
+                    break
+                case 'ranking':
+                case 'dropdown':
+                case 'radiogroup':
+                case 'checkbox':
+                case 'tagbox':
+                    question.choices = choicesArray
+                    break
             }
+
+            return prevModel
         })
 
         setShowDetails(false)
     }
 
     return (
-        <form onSubmit={addNewQuestion} className="add-question-form">
+        <form onSubmit={addQuestion} className="add-question-form">
             {/* Sets 'title' property */}
             <label htmlFor="questionTitle">Question Title</label>
             <input type="text" name="title" id="questionTitle" ref={titleRef} required autoFocus />
@@ -63,12 +71,18 @@ export function QuestionForm({ typeValue, setSurveyJson, setShowDetails }) {
             {typeValue === 'text' &&
                 <>
                     <label htmlFor="textRange">Character Limit</label>
-                    <input
-                        type="range"
-                        id="textRange"
-                        ref={textRangeRef}
-                        min={requiredRef.current.value === 'yes' ? 1 : 0}
-                        max={100} />
+                    <div className="text-range">
+                        <input
+                            type="range"
+                            id="textRange"
+                            ref={textRangeRef}
+                            min={0}
+                            max={100}
+                            value={rangeValue}
+                            onChange={e => setRangeValue(e.target.value)}
+                        />
+                        <output>Max: {rangeValue}</output>
+                    </div>
                 </>
             }
 
@@ -91,49 +105,4 @@ export function QuestionForm({ typeValue, setSurveyJson, setShowDetails }) {
             <button type="submit">Add</button>
         </form>
     )
-}
-
-function createQuestionJson(type, isRequired, title, description, textRange, rateMax, choices) {
-    const name = title.replace(/\s/g, '')
-    switch (type) {
-        case 'text':
-            return {
-                type: type,
-                name: name,
-                title: title,
-                description: description,
-                isRequired: isRequired,
-                maxLength: textRange
-            }
-        case 'rating':
-            return {
-                type: type,
-                name: name,
-                title: title,
-                description: description,
-                isRequired: isRequired,
-                rateMax: rateMax
-            }
-        case 'ranking':
-        case 'dropdown':
-        case 'radiogroup':
-        case 'checkbox':
-        case 'tagbox':
-            return {
-                type: type,
-                name: name,
-                title: title,
-                description: description,
-                isRequired: isRequired,
-                choices: choices
-            }
-        default:
-            return {
-                type: type,
-                name: name,
-                title: title,
-                description: description,
-                isRequired: isRequired,
-            }
-    }
 }
