@@ -6,7 +6,7 @@ import { UserContext } from '../../App';
 
 export const Header = () => {
 
-  const {username} = useContext(UserContext);
+  const { username } = useContext(UserContext);
 
   // useEffect(()=>{
   //   const storedUsername = localStorage.getItem('username');
@@ -25,7 +25,7 @@ export const Header = () => {
     setMenuOpen(false);
   };
 
-  const logout = () =>{
+  const logout = () => {
     localStorage.clear();
   }
 
@@ -40,23 +40,22 @@ export const Header = () => {
           <div className='two'>
             <div onClick={toggleMenu}><img className='person_header' src="person.png" alt='' /></div>
           </div>
-              <div className='name_profile'>
-                <p onClick={toggleMenu}>{username}</p>
-              </div>  
-            {isMenuOpen && (
-              <div className="logout_container" onBlur={closeMenu} tabIndex="0">
-                <div className='logout'>
+          <div className='name_profile'>
+            <p onClick={toggleMenu}>{username}</p>
+          </div>
+          {isMenuOpen && (
+            <div className="logout_container" onBlur={closeMenu} tabIndex="0">
+              <div className='logout'>
                 <a href='/login' onClick={logout}><h3>Logout</h3></a>
-                </div>
-                <div className='profile'>
-                 <a href='/dashboard'><h3>Profile</h3></a>
-                </div>
               </div>
-            )}
+              <div className='profile'>
+                <a href='/dashboard'><h3>Profile</h3></a>
+              </div>
+            </div>
+          )}
         </div>
       </div>
-      <div className='border'>
-      </div>
+      <div className='border'></div>
     </header>
   )
 }

@@ -46,11 +46,11 @@
 }
 
 .mastodon_div{
-    width: 500px;
-    height: 500px;
+    width: 400px;
+    height: 400px;
     position: relative;
     right: 27%;
-    bottom: 0%;
+    bottom: 10%;
 }
 
 .mastodon_div img{
@@ -90,6 +90,6 @@
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
     margin-top: 200px;
     position: relative;
-    right: 53%;
-    top: 6%;
+    right: 110%;
+    top: 17%;
 }
