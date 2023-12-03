@@ -1,10 +1,9 @@
-﻿using SurveyAPI.SurveyModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace SurveyAPI.Objects;
+namespace SurveyAPI.SurveyModels;
 
-public partial class QuestionObject
+public partial class Question
 {
     public int Id { get; set; }
 
@@ -26,7 +25,5 @@ public partial class QuestionObject
 
     public DateOnly DateModified { get; set; }
 
-    public string CreatedBy { get; set; }
-
-    public ICollection<Option> Options { get; set; } = new List<Option>();
+    public string? CreatedBy { get; set; }
 }

@@ -6,7 +6,7 @@ using MySqlConnector;
 using NuGet.Configuration;
 using SurveyAPI.Interfaces;
 using SurveyAPI.Objects;
-using SurveyAPI.SurveryModels;
+using SurveyAPI.SurveyModels;
 using System.Drawing.Drawing2D;
 using System.Text.Json;
 
@@ -38,7 +38,7 @@ namespace SurveyAPI.Services
                 {
                     command.CommandText = "CALL AddQuestionWithOptions (@p0,@p1,@p2,@p3,@p4,@p5)";
                     command.Parameters.Add(new MySqlParameter("@p0", a_question.Type));
-                    command.Parameters.Add(new MySqlParameter("@p1", a_question.Text));
+                    command.Parameters.Add(new MySqlParameter("@p1", a_question.Name));
                     command.Parameters.Add(new MySqlParameter("@p2", DateOnly.FromDateTime(DateTime.Now)));
                     command.Parameters.Add(new MySqlParameter("@p3", DateOnly.FromDateTime(DateTime.Now)));
                     command.Parameters.Add(new MySqlParameter("@p4", userId));
@@ -56,7 +56,7 @@ namespace SurveyAPI.Services
         public IEnumerable<QuestionObject> GetQuestions(string a_key)
         {
             List<QuestionObject> list = new();
-            List<Question> questions = m_context.Questions.Where(x => x.Text.Contains(a_key)).ToList();
+            List<Question> questions = m_context.Questions.Where(x => x.Name.Contains(a_key)).ToList();
 
             for (int i = 0; i < questions.Count; i++)
             {
@@ -69,7 +69,9 @@ namespace SurveyAPI.Services
                     DateCreated = question.DateCreated,
                     DateModified = question.DateModified,
                     Options = choices,
-                    Text = question.Text,
+                    Name = question.Name,
+                    Description = question.Description,
+                    IsRequired = question.IsRequired,
                     Type = question.Type
                 }
                 );

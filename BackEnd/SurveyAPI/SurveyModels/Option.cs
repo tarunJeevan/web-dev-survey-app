@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SurveyAPI.SurveryModels;
+namespace SurveyAPI.SurveyModels;
 
 public partial class Option
 {
