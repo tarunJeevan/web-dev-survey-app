@@ -29,6 +29,7 @@ builder.Services.AddEntityFrameworkMySql().AddDbContext<WebsurveyPfwContext>(opt
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddDbContext<WebsurveyPfwContext>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<ISurvey, SurveyService>();
 builder.Services.AddScoped<IQuestion, QuestionService>();
 
 // Initialize the Firebase Admin SDK
