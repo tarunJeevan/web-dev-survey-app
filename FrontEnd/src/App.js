@@ -7,6 +7,7 @@ import { Profile } from './Components/Profile/Profile';
 import { Dashboard } from './Components/Dashboard/Dashboard'
 import {SurveyBuilder} from './Components/SurveyBuilder/SurveyBuilder'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { SurveyTaker } from './Components/Survey/SurveyTaker';
 
 export const UserContext = createContext(null);
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/creator" element={<SurveyBuilder />} />
+        <Route path="/survey" element={<SurveyTaker />} />
       </Routes>
     </BrowserRouter>
     </UserContext.Provider>
