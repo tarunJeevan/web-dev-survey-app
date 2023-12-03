@@ -2,10 +2,12 @@ using AspNetCore.Firebase.Authentication.Extensions;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SurveyAPI.Interfaces;
 using SurveyAPI.Services;
+using SurveyAPI.SurveyModels;
 using SurveyAPI.Utils;
 using System.Text;
 
@@ -18,9 +20,17 @@ var configuration = new ConfigurationBuilder()
     .Build();
 
 var serviceConfig = configuration.GetSection("service_config").Get<ServiceConfig>();
-
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Services.AddEntityFrameworkMySql().AddDbContext<WebsurveyPfwContext>(options =>
+{
+    options.UseMySql(configuration.GetSection("Connection").Value, new MariaDbServerVersion(new Version()));
+});
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddDbContext<WebsurveyPfwContext>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-
+builder.Services.AddScoped<ISurvey, SurveyService>();
+builder.Services.AddScoped<IQuestion, QuestionService>();
 
 // Initialize the Firebase Admin SDK
 var firebaseApp = FirebaseApp.Create(new AppOptions
@@ -75,18 +85,22 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder => builder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        );
+});
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SecureSwagger v1"));
 
 app.UseHttpsRedirection();
 
+app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 

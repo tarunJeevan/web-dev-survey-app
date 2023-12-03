@@ -5,10 +5,10 @@
 h2 {
     text-shadow: 1px 1px 3px gray;
     text-align: center;
-    padding-bottom: .25rem;
     border-bottom: 1px solid black;
     box-shadow: 1px 1px 3px gray;
     margin-top: 0;
+    margin-bottom: 0;
 }
 
 #container {
@@ -28,15 +28,11 @@ h2 {
     align-items: center;
     padding: .25rem;
     padding-top: .5rem;
+    overflow-y: scroll;
 }
 
-#question-types {
-    width: 15%;
-    display: flex;
-    flex-direction: column;
-    gap: .25rem;
-    border-right: 1px solid black;
-    box-shadow: 1px 1px 3px gray;
+#question-container::-webkit-scrollbar {
+    display: none;
 }
 
 #question-details {
@@ -46,13 +42,94 @@ h2 {
     gap: .25rem;
     border-left: 1px solid black;
     box-shadow: 1px 1px 3px gray;
+    overflow-y: scroll;
 }
 
-.question-card {
+#question-details::-webkit-scrollbar {
+    display: none;
+}
+
+#question-types {
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    border-right: 1px solid black;
+    box-shadow: 1px 1px 3px gray;
+    overflow-y: scroll;
+}
+
+#question-types::-webkit-scrollbar {
+    display: none;
+}
+
+.question-type {
+    align-self: center;
     width: 90%;
-    background-color: #fff;
-    border: 1px solid black;
-    border-color: black;
+    background-color: inherit;
     border-radius: .25rem;
     padding: 0 .5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+.question-type:hover {
+    box-shadow: 1px 1px 3px black;
+}
+
+.add-question-btn {
+    font-size: large;
+    padding: 0.25rem;
+    margin: .5rem 0;
+    height: max-content;
+    background-color: inherit;
+    color: black;
+    border-radius: 0.25rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.add-question-btn:hover {
+    background-color: #3c009d;
+    color: white;
+}
+
+.add-question-form {
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.add-question-form input {
+    width: 100%;
+    padding: 0.25rem;
+}
+
+.add-question-form input[type="checkbox"] {
+    width: fit-content;
+}
+
+.add-question-form input[type="range"] {
+    width: 50%;
+}
+
+.add-question-form button {
+    font-size: large;
+    width: max-content;
+    height: max-content;
+    padding: 0.25rem 0.5rem;
+    background-color: #28A745;
+    color: white;
+    border-radius: 0.25rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.add-question-form label {
+    font-weight: bold;
 }
