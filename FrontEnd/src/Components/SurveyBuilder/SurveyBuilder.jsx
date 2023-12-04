@@ -30,36 +30,37 @@ export function SurveyBuilder() {
         getTypes()
     }, [])
 
-    const saveSurvey = e => {
+    const saveSurvey = async e => {
         e.preventDefault()
 
-        const surveyQuestions = surveyModel.getAllQuestions()
+        const surveyQuestionsList = surveyModel.getAllQuestions()
+        const surveyQuestions = createQuestionsList(surveyQuestionsList, typesList)
         const surveyDesc = surveyNameRef.current.value
-        
-        // TODO: Get Benjie to change SurveyObject schema
+
         const reqBody = {
-            id: 1,
+            id: 0,
             description: surveyDesc,
             questions: surveyQuestions
         }
+        console.log(JSON.stringify(reqBody))
 
-        // try {
-        //     const bearer = `Bearer ${localStorage.getItem('token')}`
-        //     const response = await fetch('https://websurvey.biskilog.com/api/Survey/new',
-        //         {
-        //             method: 'POST',
-        //             headers: { 'Authorization': bearer, 'Content-Type': 'application/json' },
-        //             body: JSON.stringify(reqBody) 
-        //         }
-        //     )
+        try {
+            const bearer = `Bearer ${localStorage.getItem('token')}`
+            const response = await fetch('https://websurvey.biskilog.com/api/Survey/new',
+                {
+                    method: 'POST',
+                    headers: { 'Authorization': bearer, 'Content-Type': 'application/json' },
+                    body: JSON.stringify(reqBody)
+                }
+            )
 
-        //     if (response.status === 200)
-        //         console.log('Survey saved successfully!')
-        //     else
-        //         console.error(response.statusText)
-        // } catch (err) {
-        //     console.error(err)
-        // }
+            if (response.status === 200)
+                console.log('Survey saved successfully!')
+            else
+                console.error(response.statusText)
+        } catch (err) {
+            console.error(err)
+        }
 
         surveyNameRef.current.value = ''
     }
@@ -73,15 +74,17 @@ export function SurveyBuilder() {
         <div id="container">
             <aside id="question-types">
                 <h2>Question Types</h2>
+
                 <div className="question-types-container">
-                    {typesList.map((value, index) => {
-                        return (
-                            <div key={index} className='question-type'>
-                                {value.name}
-                                <button className='add-question-btn' onClick={e => openDetailsForm(value.type)}>Select</button>
-                            </div>
-                        )
-                    })}
+                    {typesList.length < 1 ? <span><b>Loading...</b></span> :
+                        typesList.map((value, index) => {
+                            return (
+                                <div key={index} className='question-type'>
+                                    {value.name}
+                                    <button className='add-question-btn' onClick={e => openDetailsForm(value.type)}>Select</button>
+                                </div>
+                            )
+                        })}
                 </div>
             </aside>
 
@@ -105,4 +108,45 @@ export function SurveyBuilder() {
             </aside>
         </div>
     )
+}
+
+function createQuestionsList(list, typesList) {
+    const questionsList = []
+
+    for (const question of list) {
+        const type = typesList.find(value => value.type === question.getType())
+        const rateMax = (question.getType() === 'rating') ? question.rateMax : 0
+        const maxLength = (question.getType() === 'text') ? question.maxLength : 0
+        const createdBy = localStorage.getItem('username')
+
+        const today = new Date()
+        const year = today.getFullYear()
+        const month = (today.getMonth() + 1).toString().padStart(2, '0')
+        const day = today.getDate().toString().padStart(2, '0')
+
+        const dateCreated = `${year}-${month}-${day}`
+        const dateModified = `${year}-${month}-${day}`
+
+        const questionObject = {
+            id: 0,
+            type: type.id,
+            name: question.name,
+            title: question.title,
+            description: question.description,
+            isRequired: question.isRequired,
+            rateMax: rateMax,
+            maxLength: maxLength,
+            dateCreated: dateCreated,
+            dateModified: dateModified,
+            createdBy: createdBy,
+            options: [{
+                id: 0,
+                questionId: 0,
+                description: ""
+            }]
+        }
+        questionsList.push(questionObject)
+    }
+
+    return questionsList
 }
