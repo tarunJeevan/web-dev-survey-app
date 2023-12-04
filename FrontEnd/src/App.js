@@ -9,6 +9,7 @@ import { Dashboard } from './Components/Dashboard/Dashboard'
 import {SurveyBuilder} from './Components/SurveyBuilder/SurveyBuilder'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { SurveyTaker } from './Components/Survey/SurveyTaker';
 
 export const UserContext = createContext(null);
@@ -28,7 +29,7 @@ function App() {
 
   return (
     <UserContext.Provider value={{username, setusername}}>
-    <BrowserRouter>
+    <HashRouter>
     <Header />
       <Routes>
         <Route index element={<Login />} />
@@ -37,7 +38,7 @@ function App() {
         <Route path="/creator" element={<SurveyBuilder />} />
         <Route path="/survey" element={<SurveyTaker />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
     </UserContext.Provider>
   );
 }

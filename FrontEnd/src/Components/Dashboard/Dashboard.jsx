@@ -1,31 +1,11 @@
 import './Dashboard.css'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SurveyCard from './SurveyCard'
 
 export function Dashboard() {
     const [query, setQuery] = useState("")
-    const [surveys, setSurveys] = useState([
-        {
-            id: crypto.randomUUID(),
-            name: "Example survey 1",
-            description: "Description"
-        },
-        {
-            id: crypto.randomUUID(),
-            name: "Example survey 2",
-            description: "Description"
-        },
-        {
-            id: crypto.randomUUID(),
-            name: "Example survey 3",
-            description: "Description"
-        },
-        {
-            id: crypto.randomUUID(),
-            name: "Example survey 4",
-            description: "Description"
-        }])
+    const [surveys, setSurveys] = useState([])
 
     const toggleArrow = (index) => {
         // Use useRef?
@@ -40,6 +20,19 @@ export function Dashboard() {
         })
     }, [surveys, query])
 
+    // TODO: Implement this when api route is set up
+    // useEffect(() => {
+    //     const bearer = `Bearer ${localStorage.getItem('token')}`
+    //     const getSurveys = async () => {
+    //         const response = await fetch('https://websurvey.biskilog.com/api/Survey/all',
+    //             { headers: { 'Authorization': bearer } }
+    //         )
+    //         const responseJson = await response.json()
+    //         setSurveys(responseJson)
+    //     }
+    //     getSurveys()
+    // }, [])
+
     return (
         <>
             <div className="dashboard-header">
@@ -53,20 +46,21 @@ export function Dashboard() {
             </div>
 
             <div className='survey-container'>
-                {filteredList.map((survey, index) => {
-
-                    return (
-                        <details className="survey-details" key={survey.id}>
-                            <summary onClick={() => toggleArrow(index)}>
-                                {survey.name}
-                                <span className="summary-arrow" id={index} >
-                                    &#x22B3;
-                                </span>
-                            </summary>
-                            <SurveyCard surveyID={survey.id} />
-                        </details>
-                    )
-                })}
+                {surveys.length > 0 &&
+                    filteredList.map((survey, index) => {
+                        return (
+                            <details className="survey-details" key={survey.id}>
+                                <summary onClick={() => toggleArrow(index)}>
+                                    {survey.name}
+                                    <span className="summary-arrow" id={index} >
+                                        &#x22B3;
+                                    </span>
+                                </summary>
+                                <SurveyCard surveyID={survey.id} />
+                            </details>
+                        )
+                    })
+                }
             </div>
         </>
     )
