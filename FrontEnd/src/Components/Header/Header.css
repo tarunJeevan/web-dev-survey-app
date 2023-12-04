@@ -39,8 +39,8 @@
     width: fit-content;
     height: 20%;
     z-index: 1;
-    margin-top: 0.5%;
-    margin-left: 5%;
+    margin-top: 0%;
+    margin-left: 2%;
     cursor: pointer;
     position: relative;
 }
