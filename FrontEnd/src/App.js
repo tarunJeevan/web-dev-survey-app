@@ -7,7 +7,6 @@ import { createContext, useState } from 'react';
 import { Profile } from './Components/Profile/Profile';
 import { Dashboard } from './Components/Dashboard/Dashboard'
 import {SurveyBuilder} from './Components/SurveyBuilder/SurveyBuilder'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { SurveyTaker } from './Components/Survey/SurveyTaker';
@@ -16,7 +15,6 @@ export const UserContext = createContext(null);
 
 function App() {
   const[username, setusername] = useState(null);
-
 
   useEffect(()=>{
     if(localStorage.getItem("username")===null){
