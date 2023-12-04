@@ -68,10 +68,10 @@
     right: 20%;
     bottom: 18%;
     align-items: center;
-    background-image: url("C:\Users\epava\Web Dev\Project\web-dev-survey-app\FrontEnd\public\students.jpg");
+    background-image: url("../../../public/students.jpg");
     background-size: cover;
-    filter: blur(8px);
-   -webkit-filter: blur(8px);
+    /* filter: blur(8px); */
+   /* -webkit-filter: blur(8px); */
     border: 1px solid black;
 }
 

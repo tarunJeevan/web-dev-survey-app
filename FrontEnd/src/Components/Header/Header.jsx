@@ -38,7 +38,9 @@ export const Header = () => {
         </div>
         <div className='profile_container'>
           <div className='two'>
-            <div onClick={toggleMenu}><img className='person_header' src="person.png" alt='' /></div>
+            {username !== null &&
+              <div onClick={toggleMenu}><img className='person_header' src="person.png" alt='' /></div>
+            }
           </div>
           <div className='name_profile'>
             <p onClick={toggleMenu}>{username}</p>
