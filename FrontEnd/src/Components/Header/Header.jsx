@@ -1,12 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Logout } from '../Logout/Logout';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "../Header/Header.css"
 import { UserContext } from '../../App';
 
 export const Header = () => {
 
   const { username } = useContext(UserContext);
+  const[loggedin, setlogin] = useState(false)
+
+  const location = useLocation();
+  console.log(location.pathname)
+
+  useEffect(()=>{
+
+  },[loggedin])
 
   // useEffect(()=>{
   //   const storedUsername = localStorage.getItem('username');
