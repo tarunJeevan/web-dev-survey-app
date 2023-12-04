@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import { Logout } from '../Logout/Logout';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "../Header/Header.css"
+
 import { UserContext } from '../../App';
 
 export const Header = () => {
-
   const { username } = useContext(UserContext);
 
   // useEffect(()=>{
@@ -15,7 +15,23 @@ export const Header = () => {
   //   }
   // },[localStorage.getItem('username')])
 
+
+
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const[loginpage, setloginpage] = useState(false);
+  const location = useLocation();
+
+  useEffect(()=>{
+    console.log(location.pathname);
+    if(location.pathname ==="/" || location.pathname ==="/login"){
+      console.log("YES in start page")
+      setloginpage(false)
+    }
+    else{
+      console.log("No not in start page")
+      setloginpage(true)
+    }
+  },[])
 
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
@@ -36,7 +52,7 @@ export const Header = () => {
         <div className='one'>
           <a href='/dashboard'><img src="pfw_logo.png" alt="" /></a>
         </div>
-        <div className='profile_container'>
+        <div className='profile_container' style={{display: loginpage ? "":"none"}}>
           <div className='two'>
             <div onClick={toggleMenu}><img className='person_header' src="person.png" alt='' /></div>
           </div>
