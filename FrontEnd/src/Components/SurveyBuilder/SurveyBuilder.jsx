@@ -60,3 +60,44 @@ export function SurveyBuilder() {
         </div>
     )
 }
+
+function createQuestionsList(list, typesList) {
+    const questionsList = []
+
+    for (const question of list) {
+        const type = typesList.find(value => value.type === question.getType())
+        const rateMax = (question.getType() === 'rating') ? question.rateMax : 0
+        const maxLength = (question.getType() === 'text') ? question.maxLength : 0
+        const createdBy = localStorage.getItem('username')
+
+        const today = new Date()
+        const year = today.getFullYear()
+        const month = (today.getMonth() + 1).toString().padStart(2, '0')
+        const day = today.getDate().toString().padStart(2, '0')
+
+        const dateCreated = `${year}-${month}-${day}`
+        const dateModified = `${year}-${month}-${day}`
+
+        const questionObject = {
+            id: 0,
+            type: type.id,
+            name: question.name,
+            title: question.title,
+            description: question.description,
+            isRequired: question.isRequired ? 1 : 0,
+            rateMax: rateMax,
+            maxLength: maxLength,
+            dateCreated: dateCreated,
+            dateModified: dateModified,
+            createdBy: createdBy,
+            options: [{
+                id: 0,
+                questionId: 0,
+                description: ""
+            }]
+        }
+        questionsList.push(questionObject)
+    }
+
+    return questionsList
+}
