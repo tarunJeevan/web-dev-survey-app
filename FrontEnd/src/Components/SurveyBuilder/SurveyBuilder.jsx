@@ -133,7 +133,7 @@ function createQuestionsList(list, typesList) {
             name: question.name,
             title: question.title,
             description: question.description,
-            isRequired: question.isRequired,
+            isRequired: question.isRequired ? 1 : 0,
             rateMax: rateMax,
             maxLength: maxLength,
             dateCreated: dateCreated,
