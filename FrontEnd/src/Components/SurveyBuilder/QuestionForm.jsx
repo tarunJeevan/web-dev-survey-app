@@ -13,7 +13,7 @@ export function QuestionForm({ typeValue, setSurveyJson, setShowDetails }) {
     const addQuestion = e => {
         e.preventDefault()
 
-        const isRequired = requiredRef.current.value === 'yes' ? true : false
+        const isRequired = requiredRef.current.checked
         const questionTitle = titleRef.current.value
         const questionDescription = descRef.current.value
         const textMaxLength = typeValue === 'text' ? Number(textRangeRef.current.value) : 0
@@ -24,7 +24,7 @@ export function QuestionForm({ typeValue, setSurveyJson, setShowDetails }) {
 
         setSurveyJson(prevModel => {
             const name = questionTitle.replace(/\s/g, '')
-            const page = prevModel.getPageByName('Page1')
+            const page = prevModel.activePage || prevModel.getPageByName('Page1')
 
             const question = page.addNewQuestion(typeValue, name)
             question.title = questionTitle
@@ -45,10 +45,14 @@ export function QuestionForm({ typeValue, setSurveyJson, setShowDetails }) {
                 case 'tagbox':
                     question.choices = choicesArray
                     break
+                default:
+                    break
             }
 
             return prevModel
         })
+
+        requiredRef.current.value = ''
 
         setShowDetails(false)
     }
@@ -65,7 +69,7 @@ export function QuestionForm({ typeValue, setSurveyJson, setShowDetails }) {
 
             {/* Sets 'isRequired' property */}
             <label htmlFor="isRequired">Make the question required?</label>
-            <input type="checkbox" name="required" id="isRequired" value={"yes"} ref={requiredRef} />
+            <input type="checkbox" name="required" id="isRequired" ref={requiredRef} />
 
             {/* Sets 'maxLength' property for 'text' type questions */}
             {typeValue === 'text' &&

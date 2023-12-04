@@ -36,7 +36,7 @@
 }
 
 .name_profile{
-    width: 100%;
+    width: fit-content;
     height: 20%;
     z-index: 1;
     margin-top: 0.5%;
