@@ -70,8 +70,8 @@
     align-items: center;
     background-image: url("../../../public/students.jpg");
     background-size: cover;
-    /* filter: blur(8px); */
-   /* -webkit-filter: blur(8px); */
+    filter: blur(8px);
+   -webkit-filter: blur(8px);
     border: 1px solid black;
 }
 
