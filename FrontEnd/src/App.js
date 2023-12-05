@@ -25,8 +25,6 @@ function App() {
     }
   },[])
 
-
-
   return (
     <UserContext.Provider value={{username, setusername}}>
     <BrowserRouter>
