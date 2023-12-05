@@ -26,4 +26,10 @@ public partial class Question
     public DateOnly DateModified { get; set; }
 
     public string? CreatedBy { get; set; }
+
+    public virtual ICollection<Option> Options { get; set; } = new List<Option>();
+
+    public virtual ICollection<SurveyQuestion> SurveyQuestions { get; set; } = new List<SurveyQuestion>();
+
+    public virtual Questiontype TypeNavigation { get; set; } = null!;
 }
