@@ -85,10 +85,11 @@ export const Login = () => {
       <div className='submit-container'>
         <h2 className='text-center'>Welcome to Survey App from PFW</h2>
         <h3 className='text-center'>Here you can create variety of surveys and let your users take those surveys!</h3>
+        <Container ><Image className='mx-auto d-block' src={mastodon} width={380} height={380} /></Container>
         {loading ? <div> Loading...</div> : !user ? <div className="d-grid gap-2">
      
 
-        <Container ><Image className='mx-auto d-block' src={mastodon} width={380} height={380} /></Container>
+        
         <Button variant="primary" size="lg" onClick={microsoftAuth}>
         LOGIN
       </Button></div> : <></>}   
