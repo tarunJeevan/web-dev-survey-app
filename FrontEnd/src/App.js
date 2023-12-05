@@ -38,9 +38,6 @@ function App() {
   });
   }, [])
 
-  console.log(loginpage)
-
-
   return (
     <UserContext.Provider value={{username, setusername}}>
     <BrowserRouter>
