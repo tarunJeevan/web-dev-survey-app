@@ -1,5 +1,4 @@
 {
-  "homepage": "https://tarunJeevan.github.io/web-dev-survey-app",
   "name": "survey",
   "version": "0.1.0",
   "private": true,
@@ -14,6 +13,7 @@
     "react-router-dom": "^6.17.0",
     "react-scripts": "5.0.1",
     "survey-core": "^1.9.119",
+    "survey-creator-react": "^1.9.119",
     "survey-react-ui": "^1.9.119",
     "web-vitals": "^2.1.4"
   },
