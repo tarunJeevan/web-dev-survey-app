@@ -8,7 +8,6 @@ export function Dashboard() {
     const [surveys, setSurveys] = useState([])
 
     const toggleArrow = (index) => {
-        // Use useRef?
         let arrow = document.getElementById(index)
         arrow.innerHTML = (arrow.innerHTML === "⊳") ? "&#x22BF;" : "&#x22B3;"
     }
@@ -20,7 +19,6 @@ export function Dashboard() {
         })
     }, [surveys, query])
 
-    // TODO: Implement this when api route is set up
     useEffect(() => {
         const bearer = `Bearer ${localStorage.getItem('token')}`
         const getSurveys = async () => {
