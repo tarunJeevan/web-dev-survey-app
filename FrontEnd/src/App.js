@@ -9,6 +9,7 @@ import {SurveyBuilder} from './Components/SurveyBuilder/SurveyBuilder'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SurveyTaker } from './Components/Survey/SurveyTaker';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const UserContext = createContext(null);
 
@@ -24,24 +25,10 @@ function App() {
     }
   },[])
 
-  const[loginpage, setloginpage] = useState(false);
-  useEffect(()=>{
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-
-    if (user) {
-    setloginpage(true);
-    } 
-    else {
-    setloginpage(false);
-    }
-  });
-  }, [])
-
   return (
     <UserContext.Provider value={{username, setusername}}>
     <BrowserRouter>
-    <Header loggedin={loginpage}/>
+    <Header/>
       <Routes>
         <Route index element={<Login />} />
         <Route path="/login" element={<Login />} />

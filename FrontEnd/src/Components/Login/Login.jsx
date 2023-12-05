@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from "react-router-dom";
 import "../Login/Login.css"
-import { signInWithPopup, OAuthProvider } from 'firebase/auth';
+import { signInWithPopup, OAuthProvider,onAuthStateChanged, getAuth } from 'firebase/auth';
 import { auth } from '../../Utils/firebase';
 import mastodon from "../../build/mastodon.jpg"
 import { UserContext } from '../../App';
+import Image from 'react-bootstrap/Image';
+import Container from 'react-bootstrap/Container'
+import Button from 'react-bootstrap/Button';;
 
 
 export const Login = () => {
@@ -13,6 +16,25 @@ export const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const {setusername} = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
+
+  const[user, setUser] = useState(null);
+  useEffect(()=>{
+    setLoading(true)
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+    console.log("Changed");
+    setLoading(false);
+    if (user) {
+      
+    setUser(user);
+    } 
+    else {
+    setUser(null);
+    }
+    
+  });
+  }, [])
 
 
   const navigate = useNavigate();
@@ -61,9 +83,16 @@ export const Login = () => {
         <div className='underline'></div>
       </div>
       <div className='submit-container'>
-        <div className='mastodon_div'><img className='mastodon' src={mastodon} alt='' /></div>
-        <div className='student_BG'></div>
-        <div className='submit' onClick={microsoftAuth}>LOGIN</div>
+        <h2 className='text-center'>Welcome to Survey App from PFW</h2>
+        <h3 className='text-center'>Here you can create variety of surveys and let your users take those surveys!</h3>
+        {loading ? <div> Loading...</div> : !user ? <div className="d-grid gap-2">
+      <Button variant="primary" size="lg" onClick={microsoftAuth}>
+        LOGIN
+      </Button></div> : <></>}
+
+        <Container ><Image className='mx-auto d-block' src={mastodon} width={380} height={380} /></Container>
+        
+
       </div>
     </div>
   )
