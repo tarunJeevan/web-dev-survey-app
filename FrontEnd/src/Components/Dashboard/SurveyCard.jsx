@@ -6,7 +6,7 @@ export default function SurveyCard({ surveyID }) {
     return (
         <>
             <div className='card-container'>
-                Survey details here!
+                Survey analytics shown here! (Not yet implemented)
                 {/* Get analytics using SurveyJS API */}
             </div>
         </>

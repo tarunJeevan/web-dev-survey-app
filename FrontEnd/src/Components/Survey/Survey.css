@@ -1,0 +1,10 @@
+.survey-displayer {
+    width: 100vw;
+    height: calc(100vh - 44px);
+    overflow-y: scroll;
+    padding: 0;
+}
+
+.survey-displayer::-webkit-scrollbar {
+    display: none;
+}

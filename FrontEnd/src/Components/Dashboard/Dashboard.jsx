@@ -8,7 +8,6 @@ export function Dashboard() {
     const [surveys, setSurveys] = useState([])
 
     const toggleArrow = (index) => {
-        // Use useRef?
         let arrow = document.getElementById(index)
         arrow.innerHTML = (arrow.innerHTML === "⊳") ? "&#x22BF;" : "&#x22B3;"
     }
@@ -20,7 +19,6 @@ export function Dashboard() {
         })
     }, [surveys, query])
 
-    // TODO: Implement this when api route is set up
     useEffect(() => {
         const bearer = `Bearer ${localStorage.getItem('token')}`
         const getSurveys = async () => {
@@ -37,32 +35,51 @@ export function Dashboard() {
         <>
             <div className="dashboard-header">
                 <h1>Dashboard</h1>
-                <NewSurveyButton>
-
-                </NewSurveyButton>
+                <NewSurveyButton />
 
                 {/* Search bar to find surveys */}
                 <input type="search" value={query} onChange={e => setQuery(e.target.value)} placeholder='Filter by survey name...' />
             </div>
 
-            <div className='survey-container'>
-                {surveys.length > 0 &&
-                    filteredList.map((survey, index) => {
+            <div className='surveylist-container'>
+                {surveys.length > 0
+                    ? filteredList.map((survey, index) => {
                         return (
                             <details className="survey-details" key={survey.id}>
                                 <summary onClick={() => toggleArrow(index)}>
-                                    {survey.name}
-                                    <span className="summary-arrow" id={index} >
-                                        &#x22B3;
-                                    </span>
+                                    <div>
+                                        <span className="summary-arrow" id={index} >
+                                            &#x22B3;
+                                        </span>
+                                        {survey.title}
+                                    </div>
+                                    <OpenSurveyButton survey={survey} />
                                 </summary>
                                 <SurveyCard surveyID={survey.id} />
                             </details>
                         )
                     })
+                    : <div className='surveylist-alt'>
+                        <p>Press the add button to create your first survey!</p>
+                    </div>
                 }
             </div>
         </>
+    )
+}
+
+// Button to open a specific survey in a new tab
+function OpenSurveyButton({ survey }) {
+    const navigate = useNavigate()
+
+    const openSurvey = () => {
+        navigate('/survey', { state: { researcher: survey.researcher, id: survey.id } })
+    }
+
+    return (
+        <button className="open-btn" onClick={openSurvey}>
+            Preview
+        </button>
     )
 }
 
