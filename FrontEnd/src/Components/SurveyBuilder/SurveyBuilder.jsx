@@ -1,6 +1,7 @@
-import { useEffect } from 'react'
 import 'survey-core/defaultV2.min.css'
 import 'survey-creator-core/survey-creator-core.min.css'
+import './SurveyBuilder.css'
+import { useEffect } from 'react'
 import { SurveyCreator, SurveyCreatorComponent } from 'survey-creator-react'
 
 // Options to determine what things users can see on the survey editor
@@ -24,8 +25,8 @@ const defaultSurveyJson = {
 export function SurveyBuilder() {
     // Survey creator object that contains the data that <SurveyCreatorComponent /> uses to render the editor
     const creator = new SurveyCreator(creatorOptions)
-    
-// Create a default survey to display upon page load
+
+    // Create a default survey to display upon page load
     useEffect(() => {
         creator.JSON = defaultSurveyJson
     }, [])
@@ -43,7 +44,9 @@ export function SurveyBuilder() {
     }
 
     return (
-        < SurveyCreatorComponent creator={creator} />
+        <div className='survey-container'>
+            < SurveyCreatorComponent creator={creator} />
+        </div>
     )
 }
 
