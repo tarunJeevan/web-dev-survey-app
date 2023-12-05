@@ -5,24 +5,7 @@ import { Survey } from 'survey-react-ui'
 import { useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-const defaultSurveyJson = {
-    pages: [{
-        name: "Demographics",
-        elements: [{
-            type: "panel",
-            title: "Demographic Information",
-            elements: [{
-                type: "text",
-                name: "UserFirstName",
-                title: "Enter your first name..."
-            }, {
-                type: "text",
-                name: "UserLastName",
-                title: "Enter your last name..."
-            }]
-        }]
-    }]
-}
+const defaultSurveyJson = {}
 
 export function SurveyTaker() {
     const [surveyModel, setSurveyModel] = useState(() => {
@@ -34,12 +17,15 @@ export function SurveyTaker() {
 
     const surveyComplete = useCallback((sender) => {
         const results = JSON.stringify(sender.data)
-        alert(results)
-        // TODO: Switch to saving results instead of simply displaying them when endpoint is set up
-        // saveSurveyResults(
-        //     serverUrl + '/' + crypto.randomUUID(),
-        //     sender.data
-        // )
+
+        const responseObject = {
+            surveyId : location.state.id,
+            response : results
+        }
+        saveSurveyResults(
+            'https://websurvey.biskilog.com/api/Survey/response',
+            responseObject
+        )
         const timeout = setTimeout(() => {
             navigate('/dashboard')
         }, 2000)
@@ -77,22 +63,22 @@ export function SurveyTaker() {
     )
 }
 
-// async function saveSurveyResults(url, json) {
-//     const bearer = `Bearer ${localStorage.getItem('token')}`
-//     try {
-//         const response = await fetch(url,
-//             {
-//                 method: 'POST',
-//                 headers: { 'Authorization': bearer, "Content-Type": "application/json" },
-//                 body: JSON.stringify(json)
-//             }
-//         )
+async function saveSurveyResults(url, json) {
+    const bearer = `Bearer ${localStorage.getItem('token')}`
+    try {
+        const response = await fetch(url,
+            {
+                method: 'POST',
+                headers: { 'Authorization': bearer, "Content-Type": "application/json" },
+                body: JSON.stringify(json)
+            }
+        )
 
-//         if (response.status === 200)
-//             console.log("Survey results saved successfully")
-//         else
-//             console.log('Error! Survey results not saved.')
-//     } catch (err) {
-//         console.error(err)
-//     }
-// }
+        if (response.status === 200)
+            console.log("Survey results saved successfully")
+        else
+            console.log('Error! Survey results not saved.')
+    } catch (err) {
+        console.error(err)
+    }
+}
