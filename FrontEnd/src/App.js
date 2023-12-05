@@ -28,7 +28,7 @@ function App() {
   useEffect(()=>{
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
-    console.log("Changed");
+
     if (user) {
     setloginpage(true);
     } 
