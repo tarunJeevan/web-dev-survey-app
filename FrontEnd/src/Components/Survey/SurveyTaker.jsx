@@ -1,8 +1,9 @@
 import 'survey-core/defaultV2.min.css'
+import './Survey.css'
 import { Model } from 'survey-core'
 import { Survey } from 'survey-react-ui'
-import { useCallback } from 'react'
-import axios from 'axios'
+import { useCallback, useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const defaultSurveyJson = {
     pages: [{
@@ -23,30 +24,75 @@ const defaultSurveyJson = {
     }]
 }
 
-const serverUrl = 'https://websurvey.biskilog.com/api'
-
 export function SurveyTaker() {
+    const [surveyModel, setSurveyModel] = useState(() => {
+        return new Model(defaultSurveyJson)
+    })
+
+    const location = useLocation()
+    const navigate = useNavigate()
+
     const surveyComplete = useCallback((sender) => {
-        saveSurveyResults(
-            serverUrl + '/' + crypto.randomUUID(),
-            sender.data
-        )
+        const results = JSON.stringify(sender.data)
+        alert(results)
+        // TODO: Switch to saving results instead of simply displaying them when endpoint is set up
+        // saveSurveyResults(
+        //     serverUrl + '/' + crypto.randomUUID(),
+        //     sender.data
+        // )
+        const timeout = setTimeout(() => {
+            navigate('/dashboard')
+        }, 2000)
+
+        return () => clearTimeout(timeout)
     }, [])
 
-    const surveyModel = new Model(defaultSurveyJson)
-    surveyModel.onComplete.add(surveyComplete)
+    // Get survey from backend and display it
+    useEffect(() => {
+        const getSurvey = async () => {
+            const bearer = `Bearer ${localStorage.getItem('token')}`
+            const response = await fetch(
+                `https://websurvey.biskilog.com/api/Survey/${location.state.researcher}/${location.state.id}`,
+                { headers: { 'Authorization': bearer } }
+            )
+            const responseJson = await response.json()
+            setSurveyModel(() => {
+                const savedSurveyJson = {
+                    ...responseJson,
+                    pages: JSON.parse(responseJson.pages)
+                }
+                const savedSurveyModel = new Model(savedSurveyJson)
+                savedSurveyModel.onComplete.add(surveyComplete)
 
-    return <Survey model={surveyModel} />
+                return savedSurveyModel
+            })
+        }
+        getSurvey()
+    }, [])
+
+    return (
+        <div className="survey-displayer">
+            <Survey model={surveyModel} />
+        </div>
+    )
 }
 
-async function saveSurveyResults(url, json) {
-    try {
-        const response = await axios.post(url,
-            json,
-            { headers: { "Content-Type": "application/json" } }
-        )
-        if (response.status === 200) console.log("Survey sent successfully")
-    } catch (err) {
-        console.error(err)
-    }
-}
+// async function saveSurveyResults(url, json) {
+//     const bearer = `Bearer ${localStorage.getItem('token')}`
+//     try {
+//         const response = await fetch(url,
+//             {
+//                 method: 'POST',
+//                 headers: { 'Authorization': bearer, "Content-Type": "application/json" },
+//                 body: JSON.stringify(json)
+//             }
+//         )
+
+//         if (response.status === 200)
+//             console.log("Survey results saved successfully")
+//         else
+//             console.log('Error! Survey results not saved.')
+//     } catch (err) {
+//         console.error(err)
+//     }
+// }

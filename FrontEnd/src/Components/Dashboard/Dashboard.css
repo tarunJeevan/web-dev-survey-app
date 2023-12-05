@@ -58,6 +58,9 @@
 }
 
 .survey-details > summary {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     list-style: none;
     cursor: pointer;
     font-weight: bold;
@@ -77,6 +80,17 @@
 
 .summary-arrow {
     padding: 0 .5rem;
+}
+
+.open-btn {
+    padding: 0 0.5rem;
+    background-color: #157347;
+    color: white;
+    border-radius: 0.5rem;
+}
+
+.open-btn:hover {
+    background-color: #157347;
 }
 
 .surveylist-alt {

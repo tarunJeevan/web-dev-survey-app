@@ -49,10 +49,13 @@ export function Dashboard() {
                         return (
                             <details className="survey-details" key={survey.id}>
                                 <summary onClick={() => toggleArrow(index)}>
-                                    <span className="summary-arrow" id={index} >
-                                        &#x22B3;
-                                    </span>
-                                    {survey.title}
+                                    <div>
+                                        <span className="summary-arrow" id={index} >
+                                            &#x22B3;
+                                        </span>
+                                        {survey.title}
+                                    </div>
+                                    <OpenSurveyButton survey={survey} />
                                 </summary>
                                 <SurveyCard surveyID={survey.id} />
                             </details>
@@ -64,6 +67,21 @@ export function Dashboard() {
                 }
             </div>
         </>
+    )
+}
+
+// Button to open a specific survey in a new tab
+function OpenSurveyButton({ survey }) {
+    const navigate = useNavigate()
+
+    const openSurvey = () => {
+        navigate('/survey', { state: { researcher: survey.researcher, id: survey.id } })
+    }
+
+    return (
+        <button className="open-btn" onClick={openSurvey}>
+            Preview
+        </button>
     )
 }
 
