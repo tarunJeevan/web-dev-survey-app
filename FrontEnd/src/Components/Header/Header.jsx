@@ -73,6 +73,9 @@ export const Header = (props) => {
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="me-auto">
         <Nav.Link href="/">Home</Nav.Link>
+
+        {user? <Nav.Link href="/dashboard">Dashboard</Nav.Link> : <></> }
+        
       </Nav>
       <Nav>
       {user? <Dropdown>
@@ -90,43 +93,4 @@ export const Header = (props) => {
   </Container>
 </Navbar>)
 
-
-  return (
-    <header className="Header_container">
-      <div className='header_img'>
-        <div className='one'>
-          <a href={props.loggedin ? "/dashboard" : ""}><img src={pfw_logo} alt="" /></a>
-        </div>
-        {user? <Dropdown>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
-        Dropdown Button
-      </Dropdown.Toggle>
-
-      <Dropdown.Menu>
-        <Dropdown.Item href='/login' onClick={logout}>Logout</Dropdown.Item>
-        <Dropdown.Item href='/dashboard'>Dashboard</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>: <></>}
-        {/* {user?        <div className='profile_container' style={{display: props.loggedin ? "":"none"}}>
-          <div className='two'>
-            <div onClick={toggleMenu}><img className='person_header' src={icon} alt='' /></div>
-          </div>
-          <div className='name_profile'>
-            <p onClick={toggleMenu}>{username}</p>
-          </div>
-          {isMenuOpen && (
-            <div className="logout_container" onBlur={closeMenu} tabIndex="0">
-              <div className='logout'>
-                <a href='/login' onClick={logout}><h3>Logout</h3></a>
-              </div>
-              <div className='profile'>
-                <a href='/dashboard'><h3>Profile</h3></a>
-              </div>
-            </div>
-          )}
-        </div> : <></>} */}
-      </div>
-      <div className='border'></div>
-    </header>
-  )
 }
