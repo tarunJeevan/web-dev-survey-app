@@ -37,7 +37,7 @@ async function saveSurveyJson(url, json, saveNo, callback) {
     const bearer = `Bearer ${localStorage.getItem('token')}`
 
     const today = new Date().toISOString()
-    const researcher = localStorage.getItem('username')
+    const researcher = localStorage.getItem('username') || ''
     const pages = JSON.stringify(json.pages)
     const title = json.title
     const description = json.description
