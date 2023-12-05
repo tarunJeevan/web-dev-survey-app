@@ -57,7 +57,7 @@ async function saveSurveyJson(url, json, saveNo, callback) {
     const today = new Date().toISOString()
     const researcher = localStorage.getItem('username') || ''
     const pages = JSON.stringify(json.pages)
-    const title = json.title
+    const title = json.title ?? "No Title"
     const description = json.description
     const logoPosition = json.logoPosition
     const logo = json.logo
