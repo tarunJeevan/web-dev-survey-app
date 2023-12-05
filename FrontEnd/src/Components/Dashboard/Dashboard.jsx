@@ -16,22 +16,22 @@ export function Dashboard() {
     // Get a list of surveys filtered by name
     const filteredList = useMemo(() => {
         return surveys.filter(survey => {
-            return survey.name.toLowerCase().includes(query.toLowerCase())
+            return survey.title.toLowerCase().includes(query.toLowerCase())
         })
     }, [surveys, query])
 
     // TODO: Implement this when api route is set up
-    // useEffect(() => {
-    //     const bearer = `Bearer ${localStorage.getItem('token')}`
-    //     const getSurveys = async () => {
-    //         const response = await fetch('https://websurvey.biskilog.com/api/Survey/all',
-    //             { headers: { 'Authorization': bearer } }
-    //         )
-    //         const responseJson = await response.json()
-    //         setSurveys(responseJson)
-    //     }
-    //     getSurveys()
-    // }, [])
+    useEffect(() => {
+        const bearer = `Bearer ${localStorage.getItem('token')}`
+        const getSurveys = async () => {
+            const response = await fetch('https://websurvey.biskilog.com/api/Survey/my-surveys',
+                { headers: { 'Authorization': bearer } }
+            )
+            const responseJson = await response.json()
+            setSurveys(responseJson)
+        }
+        getSurveys()
+    }, [])
 
     return (
         <>
