@@ -37,8 +37,6 @@ export const Header = (props) => {
       })
     localStorage.clear();
   }
-  console.log("Header ");
-  console.log(props);
 
 
   return (
