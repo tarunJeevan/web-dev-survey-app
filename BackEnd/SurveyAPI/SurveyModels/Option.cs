@@ -10,4 +10,6 @@ public partial class Option
     public int QuestionId { get; set; }
 
     public string Description { get; set; } = null!;
+
+    public virtual Question Question { get; set; } = null!;
 }

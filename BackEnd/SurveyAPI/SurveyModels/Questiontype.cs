@@ -10,4 +10,6 @@ public partial class Questiontype
     public string Type { get; set; } = null!;
 
     public string? Name { get; set; }
+
+    public virtual ICollection<Question> Questions { get; set; } = new List<Question>();
 }

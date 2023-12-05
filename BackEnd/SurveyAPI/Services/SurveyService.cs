@@ -2,7 +2,6 @@
 using Microsoft.Net.Http.Headers;
 using MySqlConnector;
 using SurveyAPI.Interfaces;
-using SurveyAPI.Objects;
 using SurveyAPI.SurveyModels;
 using System.Text.Json;
 
@@ -22,37 +21,55 @@ namespace SurveyAPI.Services
             m_httpContext = a_httpContextAccessor?.HttpContext;
         }
 
-        public async Task<bool> CreateSurvey(SurveyObject a_survey)
+        public async Task<bool> CreateSurvey(Survey a_survey)
         {
             string token = m_httpContext.Request.Headers[HeaderNames.Authorization]!;
             string userId = await m_TokenService.GetUserIDFromToken(token);
 
             if (!String.IsNullOrEmpty(userId))
             {
-                string questions = JsonSerializer.Serialize(a_survey.Questions);
-                using (var command = m_context.Database.GetDbConnection().CreateCommand())
+                a_survey.Researcher = userId;
+                a_survey.DateCreated = DateTime.Now;
+                m_context.Surveys.Add(a_survey);
+
+                try
                 {
-                    command.CommandText = "CALL CreateSurvey (@p0, @p1, @p2, @p3,@p4)";
-                    //command.Parameters.Add(new MySqlParameter("@p0", a_question.Type));
-                    //command.Parameters.Add(new MySqlParameter("@p1", a_question.Name));
-                    command.Parameters.Add(new MySqlParameter("@p0", a_survey.Description));
-                    command.Parameters.Add(new MySqlParameter("@p1", userId));
-                    command.Parameters.Add(new MySqlParameter("@p2", DateOnly.FromDateTime(DateTime.Now)));
-                    command.Parameters.Add(new MySqlParameter("@p3", DateOnly.FromDateTime(DateTime.Now)));
-                    command.Parameters.Add(new MySqlParameter("@p4", questions));
-
-                    m_context.Database.OpenConnection();
-                    command.ExecuteNonQuery();
-
+                    await m_context.SaveChangesAsync();
                     return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
                 }
             }
             return false;
         }
 
-        public SurveyObject GetSurveyObject()
+        public async Task<IEnumerable<Survey>> GetResearcherSurveys()
         {
-            throw new NotImplementedException();
+            string token = m_httpContext.Request.Headers[HeaderNames.Authorization]!;
+            string userId = await m_TokenService.GetUserIDFromToken(token);
+
+            if (!String.IsNullOrEmpty(userId))
+            {
+                return await m_context.Surveys.Where(r => r.Researcher == userId).ToListAsync();
+            }
+            return new List<Survey>();
+        }
+
+        public Survey? GetSurveyObject(string a_researcher, int a_surveId)
+        {
+            return m_context.Surveys.FirstOrDefault(r => r.Id == a_surveId && r.Researcher == a_researcher);
+        }
+
+        public async Task<bool> SubmitSurvey(SurveyResponse a_response)
+        {
+            m_context.SurveyResponses.Add(a_response);
+            if (await m_context.SaveChangesAsync() > 0)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
