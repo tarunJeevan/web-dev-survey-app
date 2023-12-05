@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../Login/Login.css"
 import { signInWithPopup, OAuthProvider } from 'firebase/auth';
 import { auth } from '../../Utils/firebase';
+import mastodon from "../../build/mastodon.jpg"
 import { UserContext } from '../../App';
 
 
@@ -60,7 +61,7 @@ export const Login = () => {
         <div className='underline'></div>
       </div>
       <div className='submit-container'>
-        <div className='mastodon_div'><img className='mastodon' src="mastodon.jpg" alt='' /></div>
+        <div className='mastodon_div'><img className='mastodon' src={mastodon} alt='' /></div>
         <div className='student_BG'></div>
         <div className='submit' onClick={microsoftAuth}>LOGIN</div>
       </div>

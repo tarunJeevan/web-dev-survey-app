@@ -7,7 +7,6 @@ import { createContext, useState } from 'react';
 import { Profile } from './Components/Profile/Profile';
 import { Dashboard } from './Components/Dashboard/Dashboard'
 import {SurveyBuilder} from './Components/SurveyBuilder/SurveyBuilder'
-import { useLocation } from "react-router-dom";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { SurveyTaker } from './Components/Survey/SurveyTaker';
 

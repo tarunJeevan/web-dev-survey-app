@@ -1,20 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Logout } from '../Logout/Logout';
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../Header/Header.css"
+import pfw_logo from "../../build/pfw_logo.png"
+import icon from "../../build/person.png"
 import { UserContext } from '../../App';
 
 export const Header = () => {
 
   const { username } = useContext(UserContext);
-  const[loggedin, setlogin] = useState(false)
-
-  const location = useLocation();
-  console.log(location.pathname)
-
-  useEffect(()=>{
-
-  },[loggedin])
 
   // useEffect(()=>{
   //   const storedUsername = localStorage.getItem('username');
@@ -42,13 +36,11 @@ export const Header = () => {
     <header className="Header_container">
       <div className='header_img'>
         <div className='one'>
-          <a href='/dashboard'><img src="pfw_logo.png" alt="" /></a>
+          <a href='/dashboard'><img src={pfw_logo} alt="" /></a>
         </div>
         <div className='profile_container'>
           <div className='two'>
-            {username !== null &&
-              <div onClick={toggleMenu}><img className='person_header' src="person.png" alt='' /></div>
-            }
+            <div onClick={toggleMenu}><img className='person_header' src={icon} alt='' /></div>
           </div>
           <div className='name_profile'>
             <p onClick={toggleMenu}>{username}</p>
