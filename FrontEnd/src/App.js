@@ -25,24 +25,12 @@ function App() {
     }
   },[])
 
-  const[loginpage, setloginpage] = useState(false);
-  useEffect(()=>{
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-    console.log("Changed");
-    if (user) {
-    setloginpage(true);
-    } 
-    else {
-    setloginpage(false);
-    }
-  });
-  }, [])
+
 
   return (
     <UserContext.Provider value={{username, setusername}}>
     <BrowserRouter>
-    <Header loggedin={loginpage}/>
+    <Header/>
       <Routes>
         <Route index element={<Login />} />
         <Route path="/login" element={<Login />} />
