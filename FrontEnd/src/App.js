@@ -9,6 +9,7 @@ import {SurveyBuilder} from './Components/SurveyBuilder/SurveyBuilder'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SurveyTaker } from './Components/Survey/SurveyTaker';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const UserContext = createContext(null);
 

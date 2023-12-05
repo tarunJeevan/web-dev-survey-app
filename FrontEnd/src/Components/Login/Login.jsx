@@ -5,6 +5,8 @@ import { signInWithPopup, OAuthProvider,onAuthStateChanged, getAuth } from 'fire
 import { auth } from '../../Utils/firebase';
 import mastodon from "../../build/mastodon.jpg"
 import { UserContext } from '../../App';
+import Image from 'react-bootstrap/Image';
+import Container from 'react-bootstrap/Container';
 
 
 export const Login = () => {
@@ -75,7 +77,9 @@ export const Login = () => {
         <div className='underline'></div>
       </div>
       <div className='submit-container'>
-        <div className='mastodon_div'><img className='mastodon' src={mastodon} alt='' /></div>
+        <h2 className='text-center'>Welcome to Survey App from PFW</h2>
+        <h3 className='text-center'>Here you can create variety of surveys and let your users take those surveys!</h3>
+        <Container ><Image className='mx-auto d-block' src={mastodon} width={380} height={380} /></Container>
         <div className='student_BG'></div>
         {!user ? <div className='submit' onClick={microsoftAuth}>LOGIN</div> : <></>}
       </div>
