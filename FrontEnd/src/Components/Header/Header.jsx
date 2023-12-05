@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import "../Header/Header.css"
 import pfw_logo from "../../build/pfw_logo.png"
 import icon from "../../build/person.png"
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { UserContext } from '../../App';
+import { Login } from '../Login/Login';
 
 
 export const Header = (props) => {
@@ -18,6 +19,20 @@ export const Header = (props) => {
   //     setusername(storedUsername);
   //   }
   // },[localStorage.getItem('username')])
+
+  const[user, setUser] = useState(null);
+  useEffect(()=>{
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+    console.log("Changed");
+    if (user) {
+    setUser(user);
+    } 
+    else {
+    setUser(null);
+    }
+  });
+  }, [])
 
   const [isMenuOpen, setMenuOpen] = useState(false);
 
@@ -45,7 +60,7 @@ export const Header = (props) => {
         <div className='one'>
           <a href={props.loggedin ? "/dashboard" : ""}><img src={pfw_logo} alt="" /></a>
         </div>
-        <div className='profile_container' style={{display: props.loggedin ? "":"none"}}>
+        {user?        <div className='profile_container' style={{display: props.loggedin ? "":"none"}}>
           <div className='two'>
             <div onClick={toggleMenu}><img className='person_header' src={icon} alt='' /></div>
           </div>
@@ -62,7 +77,7 @@ export const Header = (props) => {
               </div>
             </div>
           )}
-        </div>
+        </div> : <></>}
       </div>
       <div className='border'></div>
     </header>

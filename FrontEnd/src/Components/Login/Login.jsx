@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from "react-router-dom";
 import "../Login/Login.css"
-import { signInWithPopup, OAuthProvider } from 'firebase/auth';
+import { signInWithPopup, OAuthProvider,onAuthStateChanged, getAuth } from 'firebase/auth';
 import { auth } from '../../Utils/firebase';
 import mastodon from "../../build/mastodon.jpg"
 import { UserContext } from '../../App';
@@ -13,6 +13,20 @@ export const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const {setusername} = useContext(UserContext);
+
+  const[user, setUser] = useState(null);
+  useEffect(()=>{
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+    console.log("Changed");
+    if (user) {
+    setUser(user);
+    } 
+    else {
+    setUser(null);
+    }
+  });
+  }, [])
 
 
   const navigate = useNavigate();
@@ -63,7 +77,7 @@ export const Login = () => {
       <div className='submit-container'>
         <div className='mastodon_div'><img className='mastodon' src={mastodon} alt='' /></div>
         <div className='student_BG'></div>
-        <div className='submit' onClick={microsoftAuth}>LOGIN</div>
+        {!user ? <div className='submit' onClick={microsoftAuth}>LOGIN</div> : <></>}
       </div>
     </div>
   )
