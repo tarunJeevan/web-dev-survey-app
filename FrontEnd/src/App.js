@@ -4,11 +4,11 @@ import { useEffect } from 'react';
 import { Login } from './Components/Login/Login';
 import { Header } from './Components/Header/Header';
 import { createContext, useState } from 'react';
-import { Profile } from './Components/Profile/Profile';
 import { Dashboard } from './Components/Dashboard/Dashboard'
 import {SurveyBuilder} from './Components/SurveyBuilder/SurveyBuilder'
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SurveyTaker } from './Components/Survey/SurveyTaker';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export const UserContext = createContext(null);
 
@@ -24,10 +24,27 @@ function App() {
     }
   },[])
 
+  const[loginpage, setloginpage] = useState(false);
+  useEffect(()=>{
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+    console.log("Changed");
+    if (user) {
+    setloginpage(true);
+    } 
+    else {
+    setloginpage(false);
+    }
+  });
+  }, [])
+
+  console.log(loginpage)
+
+
   return (
     <UserContext.Provider value={{username, setusername}}>
-    <HashRouter>
-    <Header />
+    <BrowserRouter>
+    <Header loggedin={loginpage}/>
       <Routes>
         <Route index element={<Login />} />
         <Route path="/login" element={<Login />} />
@@ -35,7 +52,7 @@ function App() {
         <Route path="/creator" element={<SurveyBuilder />} />
         <Route path="/survey" element={<SurveyTaker />} />
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
     </UserContext.Provider>
   );
 }

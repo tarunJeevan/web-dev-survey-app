@@ -4,9 +4,11 @@ import { Link } from "react-router-dom";
 import "../Header/Header.css"
 import pfw_logo from "../../build/pfw_logo.png"
 import icon from "../../build/person.png"
+import { getAuth, signOut } from "firebase/auth";
 import { UserContext } from '../../App';
 
-export const Header = () => {
+
+export const Header = (props) => {
 
   const { username } = useContext(UserContext);
 
@@ -28,17 +30,24 @@ export const Header = () => {
   };
 
   const logout = () => {
+    const auth = getAuth();
+      signOut(auth).then(() => {
+      }).catch((error) => {
+        console.log("Sign-out issue firebase");
+      })
     localStorage.clear();
   }
+  console.log("Header ");
+  console.log(props);
 
 
   return (
     <header className="Header_container">
       <div className='header_img'>
         <div className='one'>
-          <a href='/dashboard'><img src={pfw_logo} alt="" /></a>
+          <a href={props.loggedin ? "/dashboard" : ""}><img src={pfw_logo} alt="" /></a>
         </div>
-        <div className='profile_container'>
+        <div className='profile_container' style={{display: props.loggedin ? "":"none"}}>
           <div className='two'>
             <div onClick={toggleMenu}><img className='person_header' src={icon} alt='' /></div>
           </div>
