@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import 'survey-core/defaultV2.min.css'
 import 'survey-creator-core/survey-creator-core.min.css'
 import { SurveyCreator, SurveyCreatorComponent } from 'survey-creator-react'
@@ -9,29 +10,29 @@ const creatorOptions = {
     showSaveButton: true // Adds a save button to the editor that calls 'saveSurveyFunc' when clicked
 }
 
+const defaultSurveyJson = {
+    pages: [{
+        name: 'page1',
+        elements: [{
+            name: 'question1',
+            title: 'Example Question',
+            type: 'text'
+        }]
+    }]
+}
+
 export function SurveyBuilder() {
     // Survey creator object that contains the data that <SurveyCreatorComponent /> uses to render the editor
     const creator = new SurveyCreator(creatorOptions)
-    const today = new Date()
-    const year = today.getFullYear()
-    const month = (today.getMonth() + 1).toString().padStart(2, '0')
-    const day = today.getDate().toString().padStart(2, '0')
+    
+// Create a default survey to display upon page load
+    useEffect(() => {
+        creator.JSON = defaultSurveyJson
+    }, [])
 
-    const dateCreated = `${year}-${month}-${day}`
     // The survey's native saving function. Here's the documentation if you want to get a better idea of how it works.
     // Documentation: https://surveyjs.io/survey-creator/documentation/get-started-react#save-and-load-survey-model-schemas
     creator.saveSurveyFunc = (saveNo, callback) => {
-        const survey = {
-            id: 0,
-            researcher: "",
-            dateCreated: dateCreated,
-            title: creator.JSON.title,
-            description: creator.JSON.description,
-            logoPosition: creator.JSON.LogoPosition,
-            pages: JSON.stringify(creator.JSON.pages)
-        }
-        console.log(survey) // Just to see what a survey json object looks like
-console.log(creator.JSON)
         // Sends the survey's json schema to the specified url
         saveSurveyJson(
             'https://websurvey.biskilog.com/api/Survey/new',
@@ -77,14 +78,10 @@ async function saveSurveyJson(url, json, saveNo, callback) {
             }
         )
 
-        if (response.status === 200) {
-            console.log('saved successfully')
+        if (response.status === 200)
             callback(saveNo, true)
-        }
-        else {
-            console.log('saving failed')
+        else
             callback(saveNo, false)
-        }
     } catch (err) {
         callback(saveNo, false)
     }
