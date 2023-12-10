@@ -1,11 +1,16 @@
-// TODO: Need to log in before running the tests. Figure out how to get Microsoft OAuth working
+describe('Initial UX tests', () => {
+    it('sucessfully logs in', () => {
+        cy.visit('http://localhost:3000')
 
-describe('Dashboard tests', () => {
+        // Click on login button
+        cy.get('LOGIN').click()
+    })
+
     it('checks the dashboard', () => {
         cy.visit('http://localhost:3000/dashboard')
 
         // Check if Tarun Jeevan is logged in
-        cy.getAllLocalStorage({ log: true })
+        cy.getAllLocalStorage()
 
         // Does the Add button appear?
         cy.contains('Add')
