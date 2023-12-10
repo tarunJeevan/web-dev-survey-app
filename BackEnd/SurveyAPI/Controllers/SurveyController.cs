@@ -41,7 +41,7 @@ namespace SurveyAPI.Controllers
         {
             if (await m_survey.SubmitSurvey(a_survey))
             {
-                return Ok("Survey response submtted successfully");
+                return Ok("Survey response submitted successfully");
             }
             return BadRequest("An error occurred while submitting Survey");
         }
