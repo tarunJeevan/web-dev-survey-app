@@ -16,8 +16,13 @@
 // Import commands.js using ES2015 syntax:
 import './commands'
 
-import { getAuth, signInWithRedirect, OAuthProvider, getRedirectResult, signInWithPopup } from 'firebase/auth'
-import { initializeApp } from "firebase/app";
+// import { getAuth, signInWithRedirect, OAuthProvider, getRedirectResult } from 'firebase/auth'
+// import { initializeApp } from "firebase/app"
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/auth'
+import 'firebase/compat/database'
+import 'firebase/compat/firestore'
+import { attachCustomCommands } from 'cypress-firebase'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
@@ -34,24 +39,5 @@ const firebaseConfig = {
 }
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig)
-
-Cypress.Commands.add('login', () => {
-    const auth = getAuth(app)
-    const provider = new OAuthProvider('microsoft.com')
-    provider.setCustomParameters({
-        prompt: 'login',
-        tenant: 'b7dc318e-8abb-4c84-9a6a-3ae9fff0999f'
-    })
-
-    signInWithRedirect(auth, provider)
-
-    getRedirectResult(auth)
-        .then((result) => {
-            const accessToken = result.user.accessToken;
-            const username = result.user.displayName;
-
-            localStorage.setItem("token", accessToken);
-            localStorage.setItem("username", username);
-        })
-})
+firebase.initializeApp(firebaseConfig)
+attachCustomCommands({ Cypress, cy, firebase })
