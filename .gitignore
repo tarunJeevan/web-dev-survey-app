@@ -6,6 +6,8 @@
 .pnp.js
 .vs
 .vscode/
+serviceAccount.json
+cypress.env.json
 
 /BackEnd/SurveyAPI/bin
 /BackEnd/SurveyAPI/obj
